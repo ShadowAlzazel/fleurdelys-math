@@ -753,3 +753,20 @@ Treat each as a signal on n = 1 … 720,720 and take its Fourier transform. 720,
 So the primes have no lines at the powers of 2 beyond 1/2, and Collatz has lines only there. In Fourier terms, the two problems live on opposite sides of the spectrum.
 
 &#91;image: Spectra of the primes, twin primes and Collatz step counts, with predicted line heights. Script: prime_fourier.py.\]
+
+### Fleurdelys in 3D and 4D: the hourglass
+
+The hourglass is the 3D curve t ↦ (Re F(½ + it), Im F(½ + it), t), seen from the side: loops narrow near t = 0 widen toward both ends, and the zeros are the points where the curve meets the vertical axis F = 0. Axis hits for t from −50 to 50, counted where the curve's direction flips by about half a turn (robust to the step size):
+
+| Function | Axis hits | Hourglass mirrored top to bottom |
+| --- | --- | --- |
+| ζ(½ + it) | 20 | yes |
+| L(½ + it, χ₄) | 40 | yes |
+| ζ·L(χ₄), the Gaussian-integer zeta | 60 = 20 + 40 | yes |
+| Davenport–Heilbronn | 42 | yes |
+| L(½ + it, χ), complex character mod 5 | 43 | no |
+| ζ(0.6 + it) | 0 | yes |
+
+The 4D view draws ζ(σ + it) for σ = 0.3, 0.5 and 0.7 in one 3D frame. Only σ = ½ touches the axis (20 hits, closest 0.002); σ = 0.3 and 0.7 stay at least 0.172 and 0.147 away for t in ±50. Off the line they do come arbitrarily close at larger heights (Bohr), so this distance is not a margin.
+
+&#91;image: The 3D hourglass for six functions, and ζ's σ = 0.3, 0.5, 0.7 slices. Script: fleurdelys_3d.py.\]
