@@ -591,3 +591,56 @@ This is an observation from our code, at one range of X and only 29 zeros. The h
 | pair\_spacing.py | Pair correlation of the zeros and its Fourier transform (form factor), against GUE. |
 | zeta\_spectroscopy.py | Spectrogram of Z(t); the prime wave over all primes, twin primes and a random control. |
 | prime\_subsets.py | Line strength for twin, cousin, sexy and isolated primes against matched random primes. |
+
+## Session 2, continued: Green–Tao, and twin primes versus RH (Nov 23, 2026)
+
+### Journey log, continued
+
+| Step | Idea or question | What we found |
+| --- | --- | --- |
+| 34 | If twin primes "appear on the petals" and that is infinite, does it prove the twin prime conjecture, with "all primes on the petals" still open? | Partly right. Twin primes and RH are independent as far as anyone knows. But a property of twin primes does not show there are infinitely many of them, and the petals already hear every prime (proven). RH is about zeros, not primes. |
+| 35 | Explore the Green–Tao theorem | The first progression of k primes for k = 3 to 12, drawn in the spiral; counts of 3- and 4-term progressions approach the proven Green–Tao–Ziegler formula. |
+
+### Twin primes and RH: what would follow from what
+
+- **"Twin primes appear on the petals."** In the spiral layout every whole number lies on the curve r = θ, so being on it is a feature of the layout. In the spectrum sense, the petals hear every prime power; that is proven without RH (Landau 1912). Neither says anything new about twin primes.
+- **"…and it is infinite."** Proving that every twin prime has some property, even one that infinitely many things have, does not show there are infinitely many twin primes. Every twin prime is odd and there are infinitely many odd numbers, but that proves nothing. Infinitely many twin primes is the twin prime conjecture itself.
+- **Independence.** As far as anyone knows, the twin prime conjecture and RH are independent: neither is known to imply the other. Even assuming RH and its generalizations, twin primes stay out of reach because of the parity problem (Selberg), a known limit of sieve methods. A proof of twin primes would leave RH open, and the reverse.
+- **Wording.** RH is "every nontrivial zero is on the critical line", not "every prime is on the petals".
+- **What is proven about twin primes:** Chen (1973), infinitely many p with p + 2 prime or a product of two primes. Zhang (2013), infinitely many pairs of primes less than 70,000,000 apart. Maynard and Tao (2013–2014, independently) brought it to 600, and the Polymath project to 246.
+
+### The Green–Tao theorem
+
+Green and Tao (2004, published 2008) proved that the primes contain arithmetic progressions a, a + d, …, a + (k − 1)d of every length k. The proof does not use the zeros or RH. It combines Szemerédi's theorem (1975: any set of whole numbers with positive density has long progressions) with a transference principle: the primes are a dense part of a larger, well-mixed set of "almost primes", built with weights from Goldston and Yıldırım. Green, Tao and Ziegler (2010–2012) later proved how many k-term progressions there are up to N.
+
+The first progression of each length, found by search:
+
+| Length k | Progression | Last term |
+| --- | --- | --- |
+| 3 | 3 + 2j | 7 |
+| 4 | 5 + 6j | 23 |
+| 5 | 5 + 6j | 29 |
+| 6 | 7 + 30j | 157 |
+| 7 | 7 + 150j | 907 |
+| 8, 9, 10 | 199 + 210j | 1669, 1879, 2089 |
+| 11, 12 | 110437 + 13860j | 249037, 262897 |
+
+The count of progressions of primes up to N, divided by the proven asymptotic C_k ∫∫ da dd / ∏ log(a + jd):
+
+| N | 3-term count | ratio | 4-term count | ratio |
+| --- | --- | --- | --- | --- |
+| 10,000 | 59,504 | 0.946 | 10,257 | 0.915 |
+| 100,000 | 2,856,331 | 0.969 | 389,606 | 0.960 |
+| 200,000 | 9,428,344 | 0.970 | 1,207,788 | 0.964 |
+
+The ratios approach 1 slowly, as prime counts usually do.
+
+**Why 3-term progressions are proven and twin primes are not.** The constant for 3-term progressions, C₃ = 1.32032, is exactly twice the twin-prime constant 0.66016: the same prime-by-prime correction factors govern both patterns. Yet infinitely many 3-term progressions of primes were proven in 1939 (van der Corput), and progressions of every length in 2004. The difference is the number of free variables. A progression has two (the start a and the step d), and averaging over both lets Fourier-type methods count it. A twin prime pair has one (p, with the gap fixed at 2), and no current method can count it. Green and Tao call this "infinite complexity"; it is the same wall as the parity problem.
+
+&#91;image: Prime progressions in the spiral layout, the first progression of each length, and the count ratio against the proven formula. Script: green_tao.py.\]
+
+### Code added
+
+| File | What it does |
+| --- | --- |
+| green\_tao.py | First progressions of primes for k = 3 to 12, drawn in the spiral; 3- and 4-term counts against the Green–Tao–Ziegler asymptotic. |

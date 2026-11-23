@@ -52,6 +52,7 @@ Each one saves a PNG into `output/`. Run any with `--help` to see its options.
 | `pair_spacing.py` | Pair correlation of the zeros and its Fourier transform (form factor) against random-matrix theory | ~5 s |
 | `zeta_spectroscopy.py` | Spectrogram of Z(t); the prime wave over all primes, twin primes and a random control | ~1 min |
 | `prime_subsets.py` | Which primes hear the zeros: twin, cousin, sexy, isolated vs matched random primes | ~3 min |
+| `green_tao.py` | First progressions of k primes (k = 3..12) in the spiral, and counts against the proven Green–Tao–Ziegler formula | ~5 s |
 | `davenport_heilbronn.py` | ζ's flower next to the Davenport–Heilbronn function, a look-alike with zeros off the line; Newton step direction for both completed functions | flowers seconds, Newton field ~15 min |
 
 Examples:
