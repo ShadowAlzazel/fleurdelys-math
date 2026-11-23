@@ -54,6 +54,8 @@ Each one saves a PNG into `output/`. Run any with `--help` to see its options.
 | `prime_subsets.py` | Which primes hear the zeros: twin, cousin, sexy, isolated vs matched random primes | ~3 min |
 | `green_tao.py` | First progressions of k primes (k = 3..12) in the spiral, and counts against the proven Green–Tao–Ziegler formula | ~5 s |
 | `star_rotation.py` | Why a prime progression in the spiral looks like a Mandelbrot orbit: both turn by a fixed angle | ~5 s |
+| `sunflowers.py` | Sunflowers for three turn angles; arm counts from continued fractions | ~5 s |
+| `other_flowers.py` | The flower of six functions (ζ, L(χ₄), Gaussian-integer zeta, Davenport–Heilbronn, a complex character, ζ off the line) | ~5 min |
 | `davenport_heilbronn.py` | ζ's flower next to the Davenport–Heilbronn function, a look-alike with zeros off the line; Newton step direction for both completed functions | flowers seconds, Newton field ~15 min |
 
 Examples:

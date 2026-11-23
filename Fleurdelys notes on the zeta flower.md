@@ -667,3 +667,48 @@ This is shared geometry (rotation by a fixed angle), not number theory: the card
 | File | What it does |
 | --- | --- |
 | star\_rotation.py | The progression and the Mandelbrot orbit side by side, and each step's turn angle on the main cardioid's edge. |
+
+## Session 2, continued: other flowers (Nov 23, 2026)
+
+### Journey log, continued
+
+| Step | Idea or question | What we found |
+| --- | --- | --- |
+| 37 | Shared geometry is a good sign: it means real mathematics is happening, not a one-off | Universality: Mandelbrot copies (McMullen), random-matrix spacing (zeros, heavy nuclei, Cuernavaca buses), Feigenbaum's constant, and rotation by a fixed angle (arms, stars, sunflowers). |
+| 38 | Draw other flowers; so far the hourglass Fleurdelys appears only in RH | Sunflowers share the rotation mechanism. Other functions draw the same hourglass: every L-function with real coefficients does, including Davenport–Heilbronn. A complex character breaks the mirror. Off the line, ζ draws an hourglass that never touches 0. |
+
+### Sunflowers
+
+Point n at angle n × (turn) and radius √n (Vogel's model, 1979). The arms you see are the denominators of fractions close to the turn (its continued-fraction convergents):
+
+| Turn | Fractions close to it | Arms you see |
+| --- | --- | --- |
+| Golden angle, 0.3820 of a turn | 1/3, 2/5, 3/8, 5/13, 8/21, 13/34 | 3, 5, 8, 13, 21 (Fibonacci) |
+| 1 radian, 0.1592 of a turn (the prime-spiral layout) | 1/6, 3/19, 4/25, 7/44, 53/333, 113/710 | 6, 44, 710 at growing scale |
+| Step 210, 0.4225 of a turn | 2/5, 3/7, 8/19, 11/26, 30/71 | 71 straight rays at the edge |
+
+The golden angle is the hardest number to approximate by fractions, so sunflower seeds never line up into a few arms and pack evenly. This is the same mechanism as the prime-spiral arms and the star shapes.
+
+&#91;image: Sunflowers for three turns, all points and primes only. Script: sunflowers.py.\]
+
+### Other Fleurdelys flowers
+
+The hourglass has two ingredients: mirror symmetry (real coefficients give F(s̄) = conj F(s), so t and −t are mirror images) and petals through 0 (each zero on the line). For t from −60 to 60:
+
+| Function | Passes through 0 | Mirror-symmetric | Euler product |
+| --- | --- | --- | --- |
+| ζ(½ + it) | 26 | yes | yes |
+| L(½ + it, χ₄), real character mod 4 | 50 | yes | yes |
+| ζ·L(χ₄), the zeta function of the Gaussian integers | 76 = 26 + 50 | yes | yes |
+| Davenport–Heilbronn f(½ + it) | 56 | yes | no |
+| L(½ + it, χ), complex character mod 5 | 55 | no | yes |
+| ζ(0.6 + it), off the line | 0 (closest 0.076) | yes | yes |
+
+So the hourglass is not unique to ζ. It is the shape of a whole family, and the Davenport–Heilbronn flower has it too, even though it misses petals higher up (at t ≈ 85.7). The hourglass shape alone cannot tell RH apart from its failure; what matters is whether the petal count keeps up, which is target A.
+
+&#91;image: Flowers of ζ, L(χ₄), the Gaussian-integer zeta, Davenport–Heilbronn, a complex character mod 5, and ζ at σ = 0.6. Script: other_flowers.py.\]
+
+| File | What it does |
+| --- | --- |
+| sunflowers.py | Sunflowers (Vogel's model) for the golden angle, 1 radian and step 210; all points and primes only. |
+| other\_flowers.py | Flowers of six functions, with passes through 0 and the mirror test. |
