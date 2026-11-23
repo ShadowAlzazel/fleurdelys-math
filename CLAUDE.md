@@ -74,6 +74,8 @@ python mandelbrot_copy.py        # parameter plane zoom, one seed
 python overlay.py                # flower on the parameter plane
 python find_centers.py --period 3
 python near_misses.py            # slow (mpmath)
+python zeros.py --T 10000        # 10142 zeros, matches mpmath.nzeros; cached
+python zero_polar.py             # petals in the prime-spiral layout; the zeros hear the primes
 python davenport_heilbronn.py    # zeta vs a look-alike with off-line zeros (Newton field ~15 min)
 # open web/flower3d.html in a browser for the 3D viewer
 ```
@@ -84,6 +86,12 @@ python davenport_heilbronn.py    # zeta vs a look-alike with off-line zeros (New
 - Outputs go to `output/` (git-ignored).
 - Conventions: NumPy-vectorized math, argparse options on every script, plain matplotlib. Keep scripts small and runnable on their own.
 
+## Petals in the prime-spiral layout (session 2)
+
+- `zeros.py`: Riemann–Siegel Z with tabulated C0, C1 (mpmath, to dodge the removable 0/0 at p = ¼, ¾ that otherwise makes fake zeros) plus mpmath below t = 300. 10142 zeros up to 10⁴, equal to mpmath.nzeros, values within ~1e-7.
+- Zero γ at radius γ, angle γ: featureless, as expected (Hlawka 1975: aγ is equidistributed mod 1 for every a ≠ 0).
+- Angles γ·log x lean toward π exactly when x is a prime power (Landau 1912): mean of e^(iγ log 2) is −0.0768 vs predicted −0.0769; for x = 6, 10 it is 0. The weighted sum −2π√x Σ w(γ)cos(γ log x)/∫w has a spike of height log p at every prime power up to 32 (2: 0.68 vs 0.69, 3: 1.09 vs 1.10) and ≈ 0 elsewhere. Known (Landau; explicit formula), but the clearest picture so far of the petals carrying the primes. This is the kind of property the Davenport–Heilbronn function lacks (no Euler product).
+
 ## Collatz thread (session 2, a new field; no known link to RH)
 
 - Negatives: 3n + 1 on negatives is 3n − 1 on positives. Down to −10⁶, every start lands in one of three cycles: (−1, −2), (−5, −14, −7, −20, −10), and an 18-cycle from −17. Each takes roughly a third of starts. Conjectured: no others.
@@ -92,6 +100,7 @@ python davenport_heilbronn.py    # zeta vs a look-alike with off-line zeros (New
 - The 1 → 4 → 2 basin in ℂ is tiny (radius about 0.01); its repelling twin bounds it.
 - **Julia copies (user's observation, confirmed).** Next to every even integer n there is a critical point of f at about n − 2/(π²(2 + 5n)) (−1.97401 next to −2). It is captured by the nearby attracting cycle, so f∘f near the twin of (−1, −2) is quadratic-like (Douady–Hubbard). The twin's basin matches the filled Julia set of z² + c, c = λ/2 − λ²/4 = 0.18719, on 99.4% of pixels after only shifting, scaling and mirroring. The integer −1 sits exactly at the tip, playing the role of the β fixed point: 2β = 1.50126 vs multiplier 3/2. The integer cycle and its twin are the two fixed points of that quadratic (multipliers sum ≈ 2). Expected from Douady–Hubbard; same mechanism as the Mandelbrot copies in the ζ(s) − c family.
 - **Steps plot structure (prime-spiral analogy).** Curves: steps(2n) = steps(n) + 1 (0 exceptions off the cycles up to 10⁵), so doubling chains trace log₂ curves. Dashes: 8k + 4 and 8k + 5 merge after 3 steps for every integer k (100% in data), and in general the first m moves depend only on n mod 2^m (Terras 1976). The mod-8 statistics are nearly identical for positive and negative n (46.0% vs 46.6% of consecutive pairs equal). Like the 3Blue1Brown prime spirals: residue classes seen through a smooth coordinate. Known, not new.
+- Prime-spiral layout (`collatz_polar.py`): the arms are the layout (2π ≈ 44/7), not Collatz. Negatives' cycle choice is nearly independent of n mod 6 and mod 44 (shares 29–37% per class). Nearby numbers share a cycle more often than chance: 60.6% at distance 1, 38.5% at 44, 33.7% at 1000 vs 33.4% baseline, decaying smoothly with no spike at 44, 710 or 1024. Numerical observation, likely from orbits merging (as 8k + 4 and 8k + 5 do).
 - Parallel with the Davenport–Heilbronn test: the negative integers follow the same rule but have extra cycles, so a proof for the positive integers must use something that fails for the negatives (the sign in ∏(1 + 1/(3n)) is one place it enters).
 
 ## Open threads

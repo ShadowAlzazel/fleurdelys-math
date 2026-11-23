@@ -40,6 +40,9 @@ Each one saves a PNG into `output/`. Run any with `--help` to see its options.
 | `collatz_twins.py` | The non-integer "twin" cycle next to each integer cycle, with flipped stability | seconds |
 | `collatz_julia.py` | The orange basin next to −1 vs the filled Julia set of z² + 0.1872: they match after shifting, scaling and mirroring | ~1 min |
 | `collatz_structure.py` | Why the steps plot has curves (doubling chains) and dashes (8k + 4 and 8k + 5 always merge) | seconds |
+| `collatz_polar.py` | Collatz in the prime-spiral layout (radius \|n\|, angle n): primes, positives by steps, negatives by cycle | ~30 s |
+| `zeros.py` | All zeros of ζ on the line up to height T (Riemann–Siegel + mpmath below 300), cached in `output/` | ~15 s for T = 10000 |
+| `zero_polar.py` | The petals in the prime-spiral layout, angles γ·log x, and the spectrum where the zeros reproduce the primes (Landau) | ~10 s |
 | `davenport_heilbronn.py` | ζ's flower next to the Davenport–Heilbronn function, a look-alike with zeros off the line; Newton step direction for both completed functions | flowers seconds, Newton field ~15 min |
 
 Examples:
