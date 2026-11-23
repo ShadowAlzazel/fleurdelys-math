@@ -77,6 +77,7 @@ if __name__ == "__main__":
         ax.plot(s, y, "o", color=ORANGE if "isolated" in n else BLUE, ms=8)
         ax.text(s, y + 0.22, f"{s:+.2f}", ha="center", fontsize=8)
     ax.axvline(0, color=GRAY, lw=0.6)
+    ax.set_ylim(-0.6, len(rows) - 0.3)
     ax.set_yticks(range(len(rows)))
     ax.set_yticklabels([f"{n}  ({k:,})" for n, k, *_ in rows][::-1], fontsize=9)
     ax.set_xlabel("line strength at the zeros (mean of the wave at the zeros, in standard deviations)")
