@@ -1,0 +1,60 @@
+# Fleurdelys
+
+Pictures of the Riemann zeta function: the flower traced by the critical line, Newton's method on ζ, and Mandelbrot copies in its parameter plane.
+
+This is a personal geometry playground, not a proof of anything.
+
+## Setup
+
+Needs Python 3.9 or newer.
+
+```bash
+python -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+## The 3D viewer (no Python needed)
+
+Open `web/flower3d.html` in any browser. It runs entirely offline.
+
+- Drag to rotate. "Look down the axis" collapses the 3D corkscrew into the flat flower.
+- The σ slider moves off the critical line (the 4th dimension). Only σ = ½ hits the axis.
+- The t-range slider goes up to ±200.
+- The floor shows the flower's shadow, period-2 Mandelbrot centers and the critical value ζ(w).
+
+## The scripts
+
+Each one saves a PNG into `output/`. Run any with `--help` to see its options.
+
+| Script | What it draws | Typical time |
+| --- | --- | --- |
+| `flower.py` | ζ(½ + it) for t from −50 to 50 and −1000 to 1000 | seconds |
+| `newton_plane.py` | Newton's method on ζ: each starting point colored by the zero it reaches | ~15 s |
+| `mandelbrot_copy.py` | Parameter plane of Newton for ζ(s) − c, zoomed on a Mandelbrot copy | ~1–2 min |
+| `overlay.py` | The flower drawn on that parameter plane, with Mandelbrot centers marked | ~30 s |
+| `find_centers.py` | Prints centers of Mandelbrot copies (c values where the seed is periodic) | ~10 s |
+| `near_misses.py` | Closest pairs of zeros ("twin petals") and the Lehmer pair | ~1 min |
+
+Examples:
+
+```bash
+python flower.py --T 200
+python mandelbrot_copy.py --center 0.83605 -0.59158 --radius 0.03
+python mandelbrot_copy.py --center 1 0 --radius 4 --size 300     # wide view
+python find_centers.py --period 3
+python newton_plane.py --ext -4 4 0 40 --height 1000
+```
+
+## Files
+
+- `zeta_fast.py`: vectorized ζ for NumPy (Euler–Maclaurin, plus the functional equation for Re(s) < 0). Accurate to about 1e-10 at moderate heights; raise `N` for large t (N should exceed t / 2π).
+- `newton.py`: Newton iteration for ζ(s) − c, the default seed, and coloring helpers.
+- `SEED` in `newton.py` is w ≈ −0.35508 + 3.59084i, a zero of ζ″. It is a free critical point of the Newton map for ζ(s) − c. Other zeros of ζ″ give other parameter pictures; −3.59577 on the real axis is another one.
+
+## Key numbers
+
+- First Mandelbrot copy found: c ≈ −0.432 + 0.463i, about 0.03 across.
+- Critical value ζ(w) ≈ 0.4317 + 0.0979i: the hub where all basins meet in the parameter plane.
+- Zeros up to t = 50: 10. Up to t = 1000: 649.
+- Lehmer pair: t ≈ 7005.0629 and 7005.1006, gap 0.038 (about 4% of normal spacing).

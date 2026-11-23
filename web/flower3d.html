@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fleurdelys: the zeta flower in 3D</title>
+<style>
+:root{--text:#1f1f1e;--muted:#6b6a65;--panel:#f1f0ec;--border:#cfcdc4;--bg:#ffffff}
+@media (prefers-color-scheme:dark){:root{--text:#ecebe6;--muted:#a3a29c;--panel:#26262a;--border:#44444a;--bg:#18181b}}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif}
+main{max-width:720px;margin:0 auto;padding:20px}
+h1{font-size:20px;font-weight:500;margin:0 0 16px}
+.row{display:flex;align-items:center;gap:12px;margin:0 0 12px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 0 12px}
+.card{background:var(--panel);border-radius:8px;padding:10px 12px}
+.card .l{font-size:13px;color:var(--muted)}.card .v{font-size:22px;font-weight:500}
+button{background:transparent;color:var(--text);border:1px solid var(--border);border-radius:8px;padding:8px;font:inherit;font-size:14px;cursor:pointer}
+button:hover{background:var(--panel)}
+input[type=range]{flex:1}
+canvas{width:100%;height:560px;display:block;touch-action:none;cursor:grab}
+p{font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+<h1>Fleurdelys: ζ(σ + it) in 3D</h1>
+<div class="row">
+<label for="sg" style="font-size:14px;color:var(--muted)">Re(s) = σ</label>
+<input type="range" id="sg" min="0.05" max="0.95" step="0.01" value="0.5">
+<span id="sgo" style="font-size:14px;font-weight:500;min-width:36px">0.50</span>
+</div>
+<div class="row">
+<label for="tr" style="font-size:14px;color:var(--muted)">t range ±</label>
+<input type="range" id="tr" min="20" max="200" step="10" value="50">
+<span id="tro" style="font-size:14px;font-weight:500;min-width:36px">50</span>
+</div>
+<div class="grid">
+<div class="card"><div class="l">Closest to ζ = 0</div><div class="v" id="mn">0</div></div>
+<div class="card"><div class="l">Hits the axis</div><div class="v" id="hz">0</div></div>
+</div>
+<canvas id="cv"></canvas>
+<div class="grid" style="margin-top:12px">
+<button id="b1">Side view</button><button id="b2">Look down the axis</button>
+<button id="b3">Spin: on</button><button id="b4">Floor: on</button>
+</div>
+<p>Drag to turn it. Orange line: ζ = 0. Floor: the flower's shadow, period-2 Mandelbrot centers of Newton's method for ζ(s) − c (orange rings) and the critical value ζ(w) (green). Negative t is the mirror half, so the loop closes through ζ(½) at t = 0.</p>
+</main>
+<script>
+const B=[1/6,-1/30,1/42,-1/30,5/66,-691/2730,7/6,-3617/510],F=[2,24,720,40320,3628800,479001600,87178291200,20922789888000];
+function zeta(s,t,N){let re=0,im=0;for(let n=1;n<N;n++){const a=Math.exp(-s*Math.log(n)),p=-t*Math.log(n);re+=a*Math.cos(p);im+=a*Math.sin(p);}
+const L=Math.log(N),m=Math.exp(-s*L),ph=-t*L,nr=m*Math.cos(ph),ni=m*Math.sin(ph);const dr=s-1,di=t,dd=dr*dr+di*di;re+=N*(nr*dr+ni*di)/dd+nr/2;im+=N*(ni*dr-nr*di)/dd+ni/2;
+let pr=s,pi=t;for(let k=0;k<8;k++){const c=B[k]/F[k]*Math.pow(N,-(2*k+1));re+=c*(pr*nr-pi*ni);im+=c*(pr*ni+pi*nr);const a1=s+2*k+1,a2=s+2*k+2;const r1=pr*a1-pi*t,i1=pr*t+pi*a1;pr=r1*a2-i1*t;pi=r1*t+i1*a2;}return[re,im];}
+let T=50;
+function curve(s){const M=Math.round(T*40),N=Math.max(24,Math.ceil(T/3));const up=[];for(let i=0;i<=M;i++){const t=T*i/M;const z=zeta(s,t,N);up.push([z[0],z[1],t]);}const c=[];for(let i=M;i>0;i--){const p=up[i];c.push([p[0],-p[1],-p[2]]);}return c.concat(up);}
+function segd(a,b){const dx=b[0]-a[0],dy=b[1]-a[1],L=dx*dx+dy*dy;let u=L>0?-(a[0]*dx+a[1]*dy)/L:0;u=Math.max(0,Math.min(1,u));return Math.hypot(a[0]+u*dx,a[1]+u*dy);}
+const P2=[[-2.123,0.716],[-1.846,0.212],[-1.435,0.687],[-1.236,-0.463],[-0.432,0.463],[-0.421,-2.052],[-0.032,-0.392],[0.836,-0.592],[1.31,0.852],[2.234,2.28]],CV=[0.432,0.098];
+let ref=curve(0.5),cur=ref,sig=0.5,yaw=0.6,pitch=0.3,spin=true,floor=true,drag=null;
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+function stats(){let mn=1e9,h=0,prev=false;for(let i=0;i<cur.length-1;i++){const d=segd(cur[i],cur[i+1]);if(d<mn)mn=d;const on=d<0.002;if(on&&!prev)h++;prev=on;}
+document.getElementById('mn').textContent=mn<0.0005?'0':mn.toFixed(3);document.getElementById('hz').textContent=h+(h===1?' time':' times');}
+function proj(p,W,H){const sc=Math.min(W,H)/8;const x=p[0]-0.9,y=p[1],z=p[2]/T*3.2;
+const x1=x*Math.cos(yaw)-y*Math.sin(yaw),y1=x*Math.sin(yaw)+y*Math.cos(yaw);
+const sy=z*Math.cos(pitch)+y1*Math.sin(pitch),dp=y1*Math.cos(pitch)-z*Math.sin(pitch);const f=1/(1+dp*0.05);
+return[W/2+x1*sc*f,H/2-sy*sc*f];}
+function line(c,col,w,al,zf){const W=cv.clientWidth,H=cv.clientHeight;ctx.strokeStyle=col;ctx.lineWidth=w;ctx.globalAlpha=al;ctx.beginPath();for(let i=0;i<c.length;i++){const p=zf===undefined?c[i]:[c[i][0],c[i][1],zf];const q=proj(p,W,H);i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]);}ctx.stroke();ctx.globalAlpha=1;}
+function dot(p,r,col,ring){const q=proj(p,cv.clientWidth,cv.clientHeight);ctx.beginPath();ctx.arc(q[0],q[1],r,0,6.29);if(ring){ctx.strokeStyle=col;ctx.lineWidth=1.5;ctx.stroke();}else{ctx.fillStyle=col;ctx.fill();}}
+function draw(){const dpr=window.devicePixelRatio||1,W=cv.clientWidth,H=cv.clientHeight;if(cv.width!==Math.round(W*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);}ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);
+const tc=getComputedStyle(document.documentElement).getPropertyValue('--muted')||'#888';
+if(floor){line(cur,'#7F77DD',0.8,0.25,-T);P2.forEach(c=>dot([c[0],c[1],-T],4,'#D85A30',true));dot([CV[0],CV[1],-T],4.5,'#1D9E75');dot([0,0,-T],3,'#D85A30');}
+line([[0,0,-T],[0,0,T]],'#D85A30',1.5,0.9);
+if(Math.abs(sig-0.5)>0.004)line(ref,'#888780',1,0.3);
+line(cur,'#7F77DD',1.2,0.95);
+for(let i=0;i<cur.length-1;i++){if(segd(cur[i],cur[i+1])<0.002)dot(cur[i],3,'#D85A30');}
+const a=proj([0,0,T],W,H),b=proj([0,0,-T],W,H),o=proj([0,0,0],W,H);ctx.fillStyle=tc;ctx.font='12px sans-serif';ctx.fillText('t = '+T,a[0]+6,a[1]-4);ctx.fillText('t = −'+T,b[0]+6,b[1]+14);ctx.fillText('t = 0',o[0]+6,o[1]+4);}
+function setS(v){sig=v;document.getElementById('sgo').textContent=v.toFixed(2);cur=Math.abs(v-0.5)<0.004?ref:curve(v);stats();draw();}
+document.getElementById('sg').addEventListener('input',e=>setS(parseFloat(e.target.value)));
+document.getElementById('tr').addEventListener('change',e=>{T=parseInt(e.target.value);document.getElementById('tro').textContent=T;ref=curve(0.5);setS(sig);});
+document.getElementById('tr').addEventListener('input',e=>{document.getElementById('tro').textContent=e.target.value;});
+cv.addEventListener('pointerdown',e=>{drag=[e.clientX,e.clientY];cv.setPointerCapture(e.pointerId);cv.style.cursor='grabbing';});
+cv.addEventListener('pointermove',e=>{if(!drag)return;yaw+=(e.clientX-drag[0])*0.01;pitch=Math.max(-1.57,Math.min(1.57,pitch+(e.clientY-drag[1])*0.01));drag=[e.clientX,e.clientY];draw();});
+cv.addEventListener('pointerup',()=>{drag=null;cv.style.cursor='grab';});
+let anim=null;function go(ty,tp){const y0=yaw,p0=pitch;let k=0;spin=false;document.getElementById('b3').textContent='Spin: off';cancelAnimationFrame(anim);(function st(){k+=0.05;const e=k<1?1-Math.pow(1-k,3):1;yaw=y0+(ty-y0)*e;pitch=p0+(tp-p0)*e;draw();if(k<1)anim=requestAnimationFrame(st);})();}
+document.getElementById('b1').onclick=()=>go(0,0);
+document.getElementById('b2').onclick=()=>go(0,1.5707);
+document.getElementById('b3').onclick=e=>{spin=!spin;e.target.textContent='Spin: '+(spin?'on':'off');};
+document.getElementById('b4').onclick=e=>{floor=!floor;e.target.textContent='Floor: '+(floor?'on':'off');draw();};
+window.addEventListener('resize',draw);
+(function loop(){if(spin&&!drag){yaw+=0.004;draw();}requestAnimationFrame(loop);})();
+stats();draw();
+</script>
+</body>
+</html>
