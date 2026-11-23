@@ -56,6 +56,9 @@ Each one saves a PNG into `output/`. Run any with `--help` to see its options.
 | `star_rotation.py` | Why a prime progression in the spiral looks like a Mandelbrot orbit: both turn by a fixed angle | ~5 s |
 | `sunflowers.py` | Sunflowers for three turn angles; arm counts from continued fractions | ~5 s |
 | `other_flowers.py` | The flower of six functions (ζ, L(χ₄), Gaussian-integer zeta, Davenport–Heilbronn, a complex character, ζ off the line) | ~5 min |
+| `fleurdelys_3d.py` | The 3D hourglass (Re F, Im F, t) for six functions, and ζ's σ-slices (4D) | ~2 min |
+| `feigenbaum_zeta.py` | Period-doubling cascade in ζ's Newton family on the real line; gap ratios approach Feigenbaum's 4.6692 | ~10 min |
+| `prime_fourier.py` | Fourier spectra of primes, twin primes and Collatz step counts, with predicted line heights | ~5 s |
 | `davenport_heilbronn.py` | ζ's flower next to the Davenport–Heilbronn function, a look-alike with zeros off the line; Newton step direction for both completed functions | flowers seconds, Newton field ~15 min |
 
 Examples:

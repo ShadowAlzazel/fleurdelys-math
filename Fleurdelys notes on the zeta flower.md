@@ -712,3 +712,44 @@ So the hourglass is not unique to ζ. It is the shape of a whole family, and the
 | --- | --- |
 | sunflowers.py | Sunflowers (Vogel's model) for the golden angle, 1 radian and step 210; all points and primes only. |
 | other\_flowers.py | Flowers of six functions, with passes through 0 and the mirror test. |
+
+## Session 2, continued: Feigenbaum and Fourier, playing with the new tools (Nov 23, 2026)
+
+### Journey log, continued
+
+| Step | Idea or question | What we found |
+| --- | --- | --- |
+| 39 | Back to the 3D and 4D projections of the critical line: that is the hourglass shape | Drew (Re F, Im F, t) from the side for six functions and the σ-slices of ζ. Every real-coefficient function makes the hourglass; only σ = ½ touches the axis. |
+| 40 | Map the Feigenbaum constant | ζ's own Newton family has a period-doubling cascade 3 → 6 → 12 → … → 384 on the real line, and its gap ratios approach 4.6692. |
+| 41 | Fourier analysis of primes, twin primes and Collatz | The spectrum of the primes has lines exactly at fractions a/q with q square-free, heights 1/φ(q). Twin primes have lines at the same places with different heights (full height at 1/3 and 1/6). Collatz has lines only at a/2ᵐ, the opposite. |
+
+### Feigenbaum's constant inside ζ's Newton family
+
+For real c, the Newton map for ζ(s) − c sends real numbers to real numbers, and w = −3.595771 (a real zero of ζ″) is its free critical point. That makes it a real one-parameter family, like the logistic map. In the window c ∈ [0.0199, 0.0205] the orbit of w has period 3, then 6, 12, 24, …: the real slice of a period-3 Mandelbrot copy. Its superstable parameters (w returns to itself after exactly P steps), found by bisection:
+
+| Period P | c_P | Gap ratio |
+| --- | --- | --- |
+| 3 | 0.020425946526685 | |
+| 6 | 0.020159477880976 | |
+| 12 | 0.020083368584961 | 3.501 |
+| 24 | 0.020066231465415 | 4.441 |
+| 48 | 0.020062521338855 | 4.619 |
+| 96 | 0.020061724922537 | 4.659 |
+| 192 | 0.020061554262738 | 4.6667 |
+| 384 | 0.020061517708154 | 4.6686 |
+
+Gap ratio = (c at period P/4 − c at period P/2) / (c at period P/2 − c at period P), listed on the row of period P. The ratios approach Feigenbaum's δ = 4.6692016…, as his universality theorem (Feigenbaum 1978, proved by Lanford 1982) predicts for any smooth one-humped family. This is expected, not new, but it is a clean example of shared geometry: the same constant governs the logistic map, the real line of the Mandelbrot set, dripping faucets, and ζ's Newton family.
+
+&#91;image: Bifurcation diagram of the Newton map for ζ(s) − c on the real line, and the gap ratios approaching δ. Script: feigenbaum_zeta.py.\]
+
+### Fourier spectra of primes, twin primes and Collatz
+
+Treat each as a signal on n = 1 … 720,720 and take its Fourier transform. 720,720 is divisible by every q ≤ 16, so every fraction a/q with q ≤ 16 is an exact frequency.
+
+- **Primes (58,083):** lines exactly at a/q with q square-free, height |μ(q)|/φ(q): 1 at 1/2, 0.5 at 1/3 and 1/6, 0.25 at the fifths, nothing at 1/4, 1/8, 1/9, 1/12, 1/16. All 40 predicted heights for q ≤ 16 match within 0.002. This comes from primes spreading evenly over residue classes (Dirichlet, Siegel–Walfisz), the same input the circle method of Vinogradov and Green–Tao uses.
+- **Twin primes (6,207 pairs, the smaller member):** lines at the same fractions, but heights set by the residues r where both r and r + 2 avoid q's factors (the Hardy–Littlewood prediction). Full height 1.0 at 1/3 and 1/6, because every smaller twin above 3 is 2 mod 3. 0.54 at 2/5 against 0.25 for primes; 0.08 at 2/7 against 0.17. All match within 0.016.
+- **Collatz step counts:** lines only at fractions a/2ᵐ (1/2: 0.134, 1/4: 0.095, 3/8: 0.088, 1/16: 0.060), and essentially nothing at 1/3, 1/5 or 1/7. That follows from Terras: the first m moves depend only on n mod 2ᵐ.
+
+So the primes have no lines at the powers of 2 beyond 1/2, and Collatz has lines only there. In Fourier terms, the two problems live on opposite sides of the spectrum.
+
+&#91;image: Spectra of the primes, twin primes and Collatz step counts, with predicted line heights. Script: prime_fourier.py.\]
