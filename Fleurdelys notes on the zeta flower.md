@@ -431,6 +431,8 @@ Each blob is the filled Julia set of the hidden map. All its critical points are
 
 &#91;image: Basin components next to −2, −14 and −34: degree 2, 8 and 2048. Script: collatz_julia_cycles.py.\]
 
+**Correction.** The table above says the −5 component has two lobes. With the full window drawn, it has four, about 0.009 across and 0.009 tall.
+
 ### Julia copies around the zeta flower
 
 The flower t ↦ ζ(½ + it) lives in the parameter plane of Newton's method for ζ(s) − c, and it passes through Mandelbrot copies there. Over t from −200 to 200 it crosses three of them:
