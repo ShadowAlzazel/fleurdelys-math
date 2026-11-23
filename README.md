@@ -38,6 +38,8 @@ Each one saves a PNG into `output/`. Run any with `--help` to see its options.
 | `collatz_negative.py` | Collatz on −N … N: which cycle each start falls into, and how many steps it takes | seconds |
 | `collatz_complex.py` | Collatz extended to ℂ by f(z) = (2 + 7z − (2 + 5z)cos πz)/4: basins, escape, zooms at 0, 1, −1, −5 | seconds |
 | `collatz_twins.py` | The non-integer "twin" cycle next to each integer cycle, with flipped stability | seconds |
+| `collatz_julia.py` | The orange basin next to −1 vs the filled Julia set of z² + 0.1872: they match after shifting, scaling and mirroring | ~1 min |
+| `collatz_structure.py` | Why the steps plot has curves (doubling chains) and dashes (8k + 4 and 8k + 5 always merge) | seconds |
 | `davenport_heilbronn.py` | ζ's flower next to the Davenport–Heilbronn function, a look-alike with zeros off the line; Newton step direction for both completed functions | flowers seconds, Newton field ~15 min |
 
 Examples:
