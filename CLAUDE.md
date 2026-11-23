@@ -126,4 +126,5 @@ python davenport_heilbronn.py    # zeta vs a look-alike with off-line zeros (New
 ## Before the user shares the observation
 
 Use `Observation checklist.md`: one-sentence statement, its kind, known-equivalent check, circularity, the two-sided look-alike test with `lookalikes.py` (must fail for DH, should hold for L(s, χ₄)), no margin, all heights, where the primes enter, literature. Then draw it for all three functions side by side.
+- Session 2, continued again (Nov 23, 2026): petals in every spiral view. Twin primes take their own arms (mod 6: smaller twin 5, larger 1; mod 44: each avoids 2 of the 20 prime arms). Petals and twin petals (gap < 0.3 × average; 164 pairs up to 10⁴) show no arms. Consecutive zero gaps correlate −0.369. Spectrum with 35,673 zeros up to 30,000: all 35 prime powers ≤ 100 within 0.075 of log p, non-prime-powers below 0.042; twin primes get no special spike. Critical strip wrapped onto the spiral r = θ (top view) and unrolled with Z(t) (side view). Scripts: `petal_spiral.py`, `petal_spectrum.py`, `strip_spiral.py`.
 

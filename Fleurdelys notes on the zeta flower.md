@@ -480,3 +480,60 @@ A weaker version that survives (a positive share of zeros, a zero-free region, a
 | zeta\_julia.py | The Mandelbrot copy the flower crosses, and the basilica and rabbit in the s-plane. |
 | lookalikes.py | Runs any property on ζ, L(s, χ₄) and Davenport–Heilbronn. |
 | Observation checklist.md | The nine checks and the weaker targets. |
+
+## Session 2, continued: the petals in every spiral view (Nov 23, 2026)
+
+### Journey log, continued
+
+| Step | Idea or question | What we found |
+| --- | --- | --- |
+| 27 | Run every Collatz-style view on the petals | Small and large spirals for primes, twin primes, petals colored by spacing, and twin petals. Primes and twin primes show arms; petals and twin petals do not. |
+| 28 | Show only twin primes | At small scale the smaller twin and the larger twin each take one arm of their own. At large scale each avoids 2 of the 20 prime arms. |
+| 29 | Extend "the petals hear the primes" | 35,673 zeros up to height 30,000 hear every prime power up to 100. Twin primes get the same spikes as other primes. |
+| 30 | Overlay the critical strip, top and side views | In the spiral layout the critical line is the spiral r = θ itself. Wrapping the strip onto it puts every zero up to 120 on the middle line. |
+
+### Twin primes in the spiral
+
+All points in the prime-spiral layout sit on the Archimedean spiral r = θ; the arms come from sampling it at whole numbers (2π is close to 6 and to 44/7). Twin primes (p and p + 2 both prime) follow their own arm rules, which are proven and elementary:
+
+| Scale | Primes use | Smaller twin p | Larger twin p + 2 | Why |
+| --- | --- | --- | --- | --- |
+| Small (mod 6) | 2 arms (1 and 5) | 1 arm: 5 mod 6 | 1 arm: 1 mod 6 | Past 3, one of p, p + 2 would otherwise be divisible by 3 |
+| Large (mod 44) | 20 arms | 18 arms, avoiding 9 and 31 | 18 arms, avoiding 13 and 35 | On those arms the partner is divisible by 11 |
+
+Counts leave out pairs below 13, which break the pattern.
+
+### Petals and twin petals in the spiral
+
+- Petals at radius γ and angle γ show no arms at either scale, as Hlawka's theorem (1975) predicts.
+- Twin petals: pairs of consecutive zeros closer than 0.3 times the average spacing. There are 164 such pairs among the 10,142 zeros up to 10,000 (1.6%). They show no arms either.
+- Consecutive gaps between zeros are anti-correlated, −0.369 in our data: a short gap tends to be followed by a long one. This is the opposite of Collatz, where nearby numbers tend to behave alike (60.6% share a cycle at distance 1). It is a numerical observation. Montgomery's pair-correlation conjecture says zeros repel like eigenvalues of random matrices, which is why twin petals are rare.
+
+&#91;image: Primes, twin primes, petals colored by gap, and twin petals in the prime-spiral layout, at radius 1500 and 10000. Script: petal_spiral.py.\]
+
+### The petals hear the primes, extended
+
+With 35,673 zeros up to height 30,000 (matching mpmath's count exactly), the spectrum reaches x = 100:
+
+- All 35 prime powers up to 100 have a spike within 0.075 of log p (mean difference −0.031).
+- The 64 integers from 6 to 100 that are not prime powers all stay below 0.042.
+- Twin primes get the same spikes as other primes. This one-number spectrum hears each prime by itself. Twin primes would show up in how pairs of zeros are spaced (Bogomolny–Keating's heuristic, from the Hardy–Littlewood conjectures), not here.
+
+&#91;image: The zero spectrum up to x = 100, twin primes in orange, and the measured spike against log p for every prime power. Script: petal_spectrum.py.\]
+
+### The critical strip, top view and side view
+
+- **Top view:** the strip 0 ≤ σ ≤ 1 wrapped onto the spiral. The point σ + it sits at angle t and radius t + 4(σ − ½), so the critical line is the spiral r = θ, the same curve the prime spiral samples at whole numbers. Colors show ζ: hue is its direction, dark is small. All 38 zeros up to t = 120 appear as dark points on the middle line. The 30 primes up to 120 sit on the same curve, 19 of them twin primes.
+- **Side view:** the same strip unrolled, with Z(t) below it. Each sign change of Z is a petal through the origin, and lines up with a zero on σ = ½.
+- **Caveat:** putting whole numbers and zero heights on the same axis is a choice of layout, not a link. The real link between zeros and primes is the spectrum, where γ pairs with log p.
+
+&#91;image: The critical strip wrapped onto the spiral (top view) and unrolled (side view), with Z(t). Script: strip_spiral.py.\]
+
+### Code added
+
+| File | What it does |
+| --- | --- |
+| petal\_spiral.py | Primes, twin primes, petals and twin petals in the spiral layout, two scales. |
+| petal\_spectrum.py | The zero spectrum up to x = 100 with twin primes marked, and spike height against log p. |
+| strip\_spiral.py | The critical strip wrapped onto the spiral, unrolled, and Z(t). |
+| zeros.py (rerun) | 35,673 zeros up to height 30,000, cached. |

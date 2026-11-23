@@ -46,6 +46,9 @@ Each one saves a PNG into `output/`. Run any with `--help` to see its options.
 | `collatz_julia_cycles.py` | Julia copies next to the −1, −5 and −17 cycles: return maps of degree 2, 8 and 2048 | ~4 min |
 | `zeta_julia.py` | The Mandelbrot copy the flower crosses, and the basilica and rabbit in the s-plane | ~4 min |
 | `lookalikes.py` | Runs any property on ζ, L(s, χ₄) and Davenport–Heilbronn (the test in `Observation checklist.md`) | ~15 s |
+| `petal_spiral.py` | Primes, twin primes, petals and twin petals in the prime-spiral layout, two scales | ~20 s |
+| `petal_spectrum.py` | The zero spectrum up to x = 100 with twin primes marked (needs `python zeros.py --T 30000`) | ~40 s |
+| `strip_spiral.py` | The critical strip wrapped onto the spiral (top view) and unrolled with Z(t) (side view) | ~5 s |
 | `davenport_heilbronn.py` | ζ's flower next to the Davenport–Heilbronn function, a look-alike with zeros off the line; Newton step direction for both completed functions | flowers seconds, Newton field ~15 min |
 
 Examples:
