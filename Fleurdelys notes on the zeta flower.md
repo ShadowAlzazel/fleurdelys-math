@@ -644,3 +644,26 @@ The ratios approach 1 slowly, as prime counts usually do.
 | File | What it does |
 | --- | --- |
 | green\_tao.py | First progressions of primes for k = 3 to 12, drawn in the spiral; 3- and 4-term counts against the Green–Tao–Ziegler asymptotic. |
+
+## Session 2, continued: the star shape (Nov 23, 2026)
+
+### Journey log, continued
+
+| Step | Idea or question | What we found |
+| --- | --- | --- |
+| 36 | The 10-prime progression 199 + 210j in the spiral layout draws a star, like the single-seed Mandelbrot orbits shown by 3Blue1Brown and Ben Sparks | Same geometry: both turn by a fixed angle at every step. The progression turns 0.4225 of a full turn per step; the orbit at c = −0.48 + 0.35i turns 0.4226. |
+
+### Why they match
+
+- **The progression.** In the spiral layout, a progression a + dj turns by d mod 2π at every step while its radius grows by d. For d = 210 that is 0.4225 of a full turn, between 2/5 (0.4) and 3/7 (0.4286). Joining the points in order draws a star.
+- **The Mandelbrot orbit.** For c in the main cardioid, the orbit of 0 under z² + c settles onto a fixed point z*, and near it each step multiplies the distance to z* by λ = 1 − √(1 − 4c). So each step turns by the angle of λ and shrinks by |λ|. At c = −0.48 + 0.35i, the turn is 0.4226 of a full turn and |λ| = 0.854: a star spiraling inward.
+- **The other screenshot.** At c = −0.52 + 0.57i the orbit is in the 2/5 bulb and settles on a cycle of 5 points, visited 2/5 of a turn apart: a five-pointed star.
+- **The shared map.** The main cardioid is exactly the set of c whose fixed point turns by a given angle: c = λ/2 − λ²/4 with |λ| < 1. On its edge, the angle p/q is where the p/q bulb attaches (a standard fact of the Mandelbrot set). So every progression step d picks a point on the cardioid's edge, c(d) = e^(id)/2 − e^(2id)/4. Step 210 lands between the 2/5 and 3/7 bulbs, step 150 near 7/8, step 30 near 7/9.
+
+This is shared geometry (rotation by a fixed angle), not number theory: the cardioid does not know which steps give primes. The match between 0.4225 and 0.4226 is a coincidence of the screenshot's c; any orbit or progression with the same turn draws the same star.
+
+&#91;image: The progression 199 + 210j in the spiral layout, the orbit of z² + c at c = −0.48 + 0.35i, and where each step's turn angle sits on the main cardioid. Script: star_rotation.py.\]
+
+| File | What it does |
+| --- | --- |
+| star\_rotation.py | The progression and the Mandelbrot orbit side by side, and each step's turn angle on the main cardioid's edge. |

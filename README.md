@@ -53,6 +53,7 @@ Each one saves a PNG into `output/`. Run any with `--help` to see its options.
 | `zeta_spectroscopy.py` | Spectrogram of Z(t); the prime wave over all primes, twin primes and a random control | ~1 min |
 | `prime_subsets.py` | Which primes hear the zeros: twin, cousin, sexy, isolated vs matched random primes | ~3 min |
 | `green_tao.py` | First progressions of k primes (k = 3..12) in the spiral, and counts against the proven Green–Tao–Ziegler formula | ~5 s |
+| `star_rotation.py` | Why a prime progression in the spiral looks like a Mandelbrot orbit: both turn by a fixed angle | ~5 s |
 | `davenport_heilbronn.py` | ζ's flower next to the Davenport–Heilbronn function, a look-alike with zeros off the line; Newton step direction for both completed functions | flowers seconds, Newton field ~15 min |
 
 Examples:
