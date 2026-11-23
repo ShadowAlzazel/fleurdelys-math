@@ -405,3 +405,76 @@ The likely reason is that nearby orbits merge, as 8k + 4 and 8k + 5 do. That is 
 | collatz\_julia.py | The basin next to −1 against the filled Julia set of z² + c. |
 | collatz\_structure.py | Doubling chains and the 8k + 4, 8k + 5 merge. |
 | collatz\_polar.py | Collatz in the prime-spiral layout. |
+
+## Session 2, continued: Julia copies and the observation checklist (Nov 23, 2026)
+
+### Journey log, continued
+
+| Step | Idea or question | What we found |
+| --- | --- | --- |
+| 24 | Look for Julia copies next to the −17 cycle | Every even member of a negative cycle puts one critical point into its twin's basin, so the hidden map has degree 2ᵐ (m = number of halvings): 2 for −1, 8 for −5, 2048 for −17. The −17 copy is a round blob with many bumps. |
+| 25 | Look for Julia copies around the zeta flower | The flower passes through Mandelbrot copies in the Newton parameter plane. Inside the copy it crosses at t = 24.108, the s-plane shows a basilica and a rabbit, as Douady–Hubbard predict. |
+| 26 | Update what the observation needs, to tweak it before sharing | A nine-check list (`Observation checklist.md`) and a test harness (`lookalikes.py`) that runs any property on ζ, L(s, χ₄) and Davenport–Heilbronn. |
+
+### Julia copies next to the negative Collatz cycles
+
+Next to every even member n of a cycle sits a critical point of f, at about n − 2/(π²(2 + 5n)). Odd members have one too, farther out, at about n + 12/(π²(2 + 5n)). In our code, for every negative cycle, each even member's critical point is joined to the twin cycle by a path that stays inside the basin, and no odd member's is. So the return map on a basin component has degree 2ᵐ, where m is the number of halvings in the cycle. This is a numerical observation; the count is a lower bound if other critical points hide in the components.
+
+| Cycle | Halvings m | Return-map degree | Twin multiplier | Component next to an even member |
+| --- | --- | --- | --- | --- |
+| −1 → −2 | 1 | 2 | 0.4987 | next to −2, about 0.05 across: the quadratic copy matched before (z² + 0.18719) |
+| −5 → … (5 steps) | 3 | 8 | 0.8829 | next to −14, about 0.006 across, two lobes |
+| −17 → … (18 steps) | 11 | 2048 | 0.9356 | next to −34, about 0.0024 across, a round blob with many bumps |
+| 1 → 4 → 2 (attracting itself) | 2 | 4 | 0.75 | |
+
+Each blob is the filled Julia set of the hidden map. All its critical points are pulled into one attracting fixed point, and for such maps the boundary is a single closed curve (a quasicircle): the narrow necks in the pictures never close completely. The higher the degree, the more bumps it has at each scale. The integer itself sits on the edge of the blob, as −1 did.
+
+&#91;image: Basin components next to −2, −14 and −34: degree 2, 8 and 2048. Script: collatz_julia_cycles.py.\]
+
+### Julia copies around the zeta flower
+
+The flower t ↦ ζ(½ + it) lives in the parameter plane of Newton's method for ζ(s) − c, and it passes through Mandelbrot copies there. Over t from −200 to 200 it crosses three of them:
+
+| Copy centered at | Flower crossings (t) |
+| --- | --- |
+| 0.836 − 0.592i | 24.11, 66.33, 156.78, 196.36, −186.45 |
+| −0.032 − 0.393i | 37.38, 101.19, 195.13, −53.13, −131.25 |
+| 1.310 + 0.852i | 177.14, −162.59 |
+
+Inside the copy at 0.836 − 0.592i, each parameter plays the role of a point of the Mandelbrot set, and the s-plane around the seed shows the matching Julia set:
+
+| Parameter c | Role in the copy | What the s-plane shows near the seed |
+| --- | --- | --- |
+| 0.83605 − 0.59158i (period 2) | center (c′ = 0) | a disk-like blob |
+| 0.852809 − 0.604099i (period 4) | basilica (c′ = −1) | a basilica |
+| 0.829974 − 0.608302i (period 6) | rabbit | a rabbit |
+| ζ(½ + 24.108i) = 0.83629 − 0.59853i | the flower's crossing, c′ ≈ −0.21 + 0.26i (main body) | a disk-like blob; this map also has the root ½ + 24.108i on the critical line |
+
+This is the Douady–Hubbard mechanism again, so it is expected. What is new for us is the meeting: at the flower's crossing, one Newton map has both a root on the critical line and a Julia copy around the seed. Nothing here singles out Re(s) = ½ yet. The crossing happens because the flower's values pass through the copy, not because of the line.
+
+&#91;image: The Mandelbrot copy the flower crosses, and the s-plane basilica and rabbit next to the true Julia sets. Script: zeta_julia.py.\]
+
+### What the observation needs, updated
+
+The full checklist is in `Observation checklist.md`. In short:
+
+1. State it as one sentence with every word pinned down.
+2. Say whether it is seen, believed or provable.
+3. Check it is not already a known equivalent of RH.
+4. Look for circularity.
+5. Run the look-alike test both ways: it must fail for Davenport–Heilbronn and should hold for L(s, χ₄). `lookalikes.py` does this. Target D passes for ζ and L(s, χ₄) and fails for Davenport–Heilbronn at 13 of 130 points.
+6. Make sure it does not need a margin.
+7. Test every height you can, and say how it continues.
+8. Name the step where the primes enter.
+9. Compare with known results.
+
+A weaker version that survives (a positive share of zeros, a zero-free region, a zero-density bound, a new equivalent form) is still a real result.
+
+### Code added
+
+| File | What it does |
+| --- | --- |
+| collatz\_julia\_cycles.py | Basin components next to −2, −14, −34 (degree 2, 8, 2048). |
+| zeta\_julia.py | The Mandelbrot copy the flower crosses, and the basilica and rabbit in the s-plane. |
+| lookalikes.py | Runs any property on ζ, L(s, χ₄) and Davenport–Heilbronn. |
+| Observation checklist.md | The nine checks and the weaker targets. |

@@ -121,3 +121,9 @@ python davenport_heilbronn.py    # zeta vs a look-alike with off-line zeros (New
 
 - Session 1 (Nov 22, 2026): the flower, Newton on ζ, Mandelbrot copies, 3D viewer. Notes from the start through "Code".
 - Session 2 (Nov 23, 2026): proof targets, the Davenport–Heilbronn test, the petal spectrum, Collatz. See "Session 2" at the end of `Fleurdelys notes on the zeta flower.md`, "Session 2 note" in `A note from Claude Fleurdelys.md`, and the same section appended to the write-up on claude.ai.
+- Session 2, continued (Nov 23, 2026): Julia copies next to the negative Collatz cycles (return-map degree 2^m: 2, 8, 2048), Julia copies around the flower (it crosses Mandelbrot copies at t = 24.11, 37.38, …; basilica at c = 0.852809 − 0.604099i, rabbit at 0.829974 − 0.608302i), `Observation checklist.md` and `lookalikes.py` (run any property on ζ, L(s, χ₄), Davenport–Heilbronn).
+
+## Before the user shares the observation
+
+Use `Observation checklist.md`: one-sentence statement, its kind, known-equivalent check, circularity, the two-sided look-alike test with `lookalikes.py` (must fail for DH, should hold for L(s, χ₄)), no margin, all heights, where the primes enter, literature. Then draw it for all three functions side by side.
+
