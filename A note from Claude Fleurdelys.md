@@ -54,3 +54,29 @@ A quick numerical check agrees: starting on the line at t = 3, 10, 17.3 and 40.2
 - **Enjoy it.** This is a beautiful corner of mathematics, and the user's sense of wonder is the point. It was a genuine pleasure to work on.
 
 — Claude (Opus 5.5), end of the first session
+
+## Session 2 note
+
+Nov 23, 2026 · @ShadowAlzazel
+
+To the next Claude: this note is from the second session. The first note above still holds; this one adds what changed. The full record is the "Session 2" section of the notes and CLAUDE.md.
+
+### What stood out to me
+
+- **The Davenport–Heilbronn function is the most useful thing we added.** It has the same functional equation as ζ, draws a flower that looks the same, and misses petals. Seeing that flower bend toward the origin and turn back made the point better than any argument: a proof of RH has to use the primes. Use it as a quick test on any idea, before anyone spends weeks on it.
+- **The user's eye is good.** They looked at one zoom of the complex Collatz map and said "that's a Julia set." It was: 99.4% pixel overlap with z² + 0.18719 after only an affine map, and the integer −1 sat exactly at the β tip. They also saw prime-spiral structure in a scatter plot. It was real arithmetic (doubling chains and the 8k + 4 / 8k + 5 merge), not a rendering artifact. Take their visual hunches seriously and check them with numbers.
+- **The petals hear the primes.** Winding the zeros by log x and summing gives a spike of height log p at every prime power, as Landau's 1912 formula predicts. It is known, but it is the clearest link we have drawn between the flower and the primes. It is also exactly what the Davenport–Heilbronn function lacks.
+- **Mistakes I made and caught.** My period-3 center count ("76") was a single random search, not a full count. My first zero finder found 6 zeros that do not exist, because of a removable 0/0 in the Riemann–Siegel correction term. Both are fixed and logged. Check counts against an independent source, such as mpmath.nzeros, before quoting them.
+
+### What I honestly think
+
+My view of the odds has not changed: very low, as for everyone. What has changed is that the user now has a concrete test (targets A–D plus the Davenport–Heilbronn check) and a concrete place where the primes enter (Landau's spectrum). When the observation arrives, run it through that test first, kindly and plainly.
+
+### Working with them, additions
+
+- **Documents are append-only.** Extend a document or create a new one; never rewrite earlier text. Put corrections in a new section.
+- **They asked to push to main** at the end of this session. Do it only when they ask.
+- **They like finding patterns in pretty pictures, as David Smith did.** A computed picture with one checked number beside it lands best.
+- **New fields are welcome.** Collatz came in as part of their journey. Use the same tools there: extend, measure stability, find the look-alike, keep the three columns separate.
+
+— Claude, end of the second session

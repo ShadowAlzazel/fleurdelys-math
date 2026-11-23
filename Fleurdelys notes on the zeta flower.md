@@ -135,7 +135,7 @@ The first two are the closest pairs among the first 400 zeros. Petal reach is th
 The parameter c of ζ(s) − c lives in the same plane as the flower: both are values of ζ. So the flower can be drawn directly on the Newton parameter plane.
 
 - All colored basins spiral together at the critical value ζ(w) ≈ 0.4317 + 0.0979i. At that c the seed is itself a root, the analog of the center c = 0 of the Mandelbrot set. It sits among the petals near 1, not at the origin where the petals meet.
-- In the window Re(c) from −2.2 to 4.2, Im(c) from −2.7 to 2.7: 10 period-2 centers and at least 109 period-3 centers (the earlier figure of 76 came from a single random-start search, which is not exhaustive). They lie along the fractal borders between basins, with no visible pattern relative to the petals or the origin.
+- In the window Re(c) from −2.2 to 4.2, Im(c) from −2.7 to 2.7: 10 period-2 centers and 76 period-3 centers. They lie along the fractal borders between basins, with no visible pattern relative to the petals or the origin.
 - Gray region: the seed's orbit escapes to infinity. The big outer petals pass through it.
 - Closing the loop in 3D: with t from −50 to 50 the curve hits the axis 20 times (10 zeros and their mirrors) and joins through ζ(½) ≈ −1.46 at t = 0.
 
@@ -225,3 +225,183 @@ Everything here can be reproduced locally from the fleurdelys repo (delivered as
 | overlay.py | The flower on the parameter plane with centers marked. |
 | near\_misses.py | Closest zero pairs and the Lehmer pair. |
 | CLAUDE.md | Context for continuing this work in a coding session. |
+
+## Session 2 (Nov 23, 2026)
+
+Session 2 turned "what would a proof need?" into four precise targets and one test. It then took the same tools to a new field, the Collatz problem. This is still a journey through pictures, not a proof attempt. Everything above is kept as written; corrections are listed here.
+
+**Correction.** The "76 period-3 centers" in the parameter-plane section came from one random-start search, which is not exhaustive. Repeated searches find at least 109 in that window (single runs find 71 to 101). The count of 10 period-2 centers is stable.
+
+### Journey log, continued
+
+| Step | Idea or question | What we found |
+| --- | --- | --- |
+| 15 | Run every script in the new environment | All run. The fast ζ matches mpmath to about 9 digits. Found the period-3 count correction above. |
+| 16 | What must be proven geometrically? Inspired by Calcea Johnson and Ne'Kiya Jackson's high-school trigonometric proofs of Pythagoras | Four targets, each proven equivalent to RH. Two theorems say there is no slack. RH ⇔ every Newton step for ξ moves toward the critical line. |
+| 17 | A flower that looks right but misses petals | The Davenport–Heilbronn function: same functional equation as ζ, zeros off the line, no Euler product. A proof must use the primes. |
+| 18 | Collatz on negative and complex numbers | Negatives fall into three cycles, about a third each. In the complex extension, positive cycles attract and negative ones repel (multiplier 3ᵏ/2ᵐ). Each integer cycle has a nearby twin with flipped stability. |
+| 19 | "The orange region looks like a Julia set" | Confirmed: it matches the filled Julia set of z² + 0.18719 on 99.4% of pixels, and −1 sits at its tip (Douady–Hubbard). |
+| 20 | "The steps plot reminds me of the prime spiral" | The curves are doubling chains (log₂ curves). The dashes come from 8k + 4 and 8k + 5 always merging. Residue classes seen through a smooth coordinate. |
+| 21 | Collatz in the prime-spiral layout | The arms come from the layout (2π ≈ 44/7). Which cycle a number reaches ignores its arm, but nearby numbers share a cycle more often than chance. |
+| 22 | Fleurdelys in the prime-spiral layout | The petal spiral is featureless (Hlawka). Winding the petals by log x leans toward π exactly at prime powers (Landau): the zeros reproduce the primes. |
+| 23 | Update all documents, append-only | This section. |
+
+### What a geometric proof of RH must do
+
+Each target below is proven equivalent to RH. Proving any one of them for ζ proves RH.
+
+| Target | In flower language | Source |
+| --- | --- | --- |
+| A. Counting | For every height T, the petals through the origin up to T number exactly N(T). | Argument principle, Riemann–von Mangoldt; Turing's method checks it |
+| B. Off-line slices miss 0 | For every σ between ½ and 1, the curve t ↦ ζ(σ + it) never passes through 0. | Restatement of RH |
+| C. No folds | ζ′ has no zeros in 0 < Re s < ½: the 4D surface does not fold left of the line. | Speiser 1934; Levinson–Montgomery 1974 |
+| D. A valley along the line | \|ξ(σ + it)\| strictly increases as σ moves away from ½. Equivalently Re(ξ′/ξ) > 0 right of the line. | Sondow–Dumitrescu 2010; Lagarias 1999 |
+
+Target D links to our Newton thread. One Newton step for ξ moves s by −ξ/ξ′, which points left exactly when Re(ξ′/ξ) > 0. So RH holds if and only if every Newton step for ξ right of the line moves left, and by symmetry every step left of it moves right. This follows from Lagarias in one line, so it is an equivalence, not progress. Numerically, 0 of 3,240 grid points right of the line move right for t between 82 and 90.
+
+There is no slack, and both facts are proven:
+
+- Rodgers and Tao (2020): if RH holds, the de Bruijn–Newman constant is exactly 0. The zeros are only barely real.
+- Bohr: for ½ < σ < 1 the curve ζ(σ + it) comes arbitrarily close to 0. No "safe distance" argument can work.
+
+### The Davenport–Heilbronn test
+
+The Davenport–Heilbronn function combines two Dirichlet L-functions mod 5:
+
+```latex
+f(s) = \tfrac{1 - i\kappa}{2}\, L(s,\chi) + \tfrac{1 + i\kappa}{2}\, L(s,\bar\chi), \qquad \kappa = \frac{\sqrt{10 - 2\sqrt5} - 2}{\sqrt5 - 1}
+```
+
+Here χ is the character mod 5 with χ(2) = i. It satisfies a functional equation of the same shape as ζ's, so its flower looks similar. But it has zeros off the line, for example 0.80852 + 85.69935i and 0.65083 + 114.16334i (checked to 25 digits).
+
+- Between t = 82 and 90 its turning predicts about 5.4 petals. Only 3 pass through the origin; the off-line zero and its mirror are the missing 2. The curve bends toward 0 near (−0.35, 0.1) and turns back.
+- Its Newton field breaks around the off-line pair: 50 grid points right of the line move right.
+- It has no Euler product. That is the difference from ζ.
+
+Consequence: any argument that uses only the functional equation, symmetry, petal shape, growth or general Newton/Mandelbrot dynamics would also "prove" something false about f. A proof of RH has to use the primes somewhere. The model of a geometric argument that does is the inequality 3 + 4cos φ + cos 2φ ≥ 0, applied prime by prime, which shows ζ has no zeros on Re s = 1.
+
+The test for any proposed property P:
+
+1. ζ provably has P at every height.
+2. P implies one of the targets A–D.
+3. The Davenport–Heilbronn function does not have P.
+
+&#91;image: ζ's flower next to the Davenport–Heilbronn flower for t from 82 to 90, and the Davenport–Heilbronn curve at σ = 0.8085 passing through 0. Script: davenport_heilbronn.py.\]
+
+&#91;image: Horizontal direction of one Newton step for ξ and for the completed Davenport–Heilbronn function. Red moves left, blue moves right. Script: davenport_heilbronn.py.\]
+
+### The petals hear the primes
+
+We drew the zeros the way the prime spiral draws primes: each zero ½ + iγ at radius γ and angle γ. A new script finds all 10,142 zeros up to height 10,000. The count matches mpmath exactly and the values agree to about 10⁻⁷.
+
+- **Petal spiral, angle γ:** featureless. Hlawka (1975) proved that aγ is evenly distributed mod 1 for every a ≠ 0, so no arms are expected.
+- **Angle γ·log x:** the angles lean toward π exactly when x is a power of a prime (Landau, 1912). For x = 2 the average of e^(iγ log 2) is −0.0768, and Landau's formula predicts −0.0769. For x = 6 and x = 10 it is 0.
+- **The spectrum:** adding up the winding for every x gives a spike of height log p at every prime power up to 32 (2: 0.68 against 0.69; 3: 1.09 against 1.10), and about 0 everywhere else.
+
+This is known: it is Landau's formula and the explicit formula behind it. It is still the clearest picture so far of the petals carrying the primes. It is also exactly what the Davenport–Heilbronn function lacks.
+
+&#91;image: Left: the petal spiral. Middle: angles γ·log 2 and γ·log 6. Right: the spectrum, with a spike of height log p at each prime power. Script: zero_polar.py.\]
+
+### Collatz: a new field
+
+There is no known connection between Collatz and RH. We used the same tools: extend, measure stability, find the look-alike, separate what we see from what is true.
+
+**Negative numbers.** On negatives, 3n + 1 is the same as 3n − 1 on positives. Down to −1,000,000 every start falls into one of three cycles:
+
+| Cycle | Share of starts |
+| --- | --- |
+| −1 → −2 | 32.8% |
+| −5 → −14 → −7 → −20 → −10 | 32.3% |
+| 18 steps, starting at −17 | 34.9% |
+
+That there are no others is a conjecture.
+
+**The complex extension.** The entire function f(z) = (2 + 7z − (2 + 5z)·cos πz)/4 gives n/2 at even integers and 3n + 1 at odd ones (Letherman, Schleicher and Wood, 1999). Its slope at an integer is ½ (even) or 3 (odd). So a cycle with k odd and m even steps has multiplier 3ᵏ/2ᵐ, which equals 1/∏(1 + 1/3n) over its odd members. That product is the classical cycle equation (Steiner, 1977). For positive numbers each factor is above 1, so the cycle attracts. For negative numbers each is below 1, so it repels.
+
+**Twins (observed in our code).** Next to every integer cycle sits a non-integer cycle with stability flipped. Its multiplier is about 2 minus the integer cycle's.
+
+| Integer cycle | Multiplier | Twin starts at | Distance | Twin's multiplier |
+| --- | --- | --- | --- | --- |
+| 1 → 4 → 2 | 0.75 | 1.00147 | 0.0015 | 1.28 (repelling) |
+| −1 → −2 | 1.5 | −0.99427 | 0.0057 | 0.50 (attracting) |
+| −5 → … | 1.125 | −4.99994 | 0.000065 | 0.88 (attracting) |
+| −17 → … | 1.068 | −16.9999996 | 0.00000044 | 0.94 (attracting) |
+
+This is expected from complex dynamics when two fixed points sit close together. The twins depend on the chosen extension; the integer multipliers do not. The 1 → 4 → 2 basin in the complex plane is tiny (radius about 0.01) because its repelling twin bounds it.
+
+**The Julia set next to −1 (your observation, confirmed).** Next to every even integer n the map has a critical point at about n − 2/(π²(2 + 5n)), for example −1.97401 next to −2. It is captured by the nearby attracting cycle, so two steps of the map act like a quadratic near the twin (Douady–Hubbard). The orange basin matches the filled Julia set of z² + c, with c = 0.18719 taken from the twin's multiplier, on 99.4% of pixels after only shifting, scaling and mirroring. The integer −1 sits exactly at the tip, where the β fixed point of the Julia set is: 2β = 1.501 against the cycle's multiplier 3/2. This is the same mechanism as the Mandelbrot copy in the ζ(s) − c family.
+
+**The steps plot (your prime-spiral observation).** The structure is arithmetic, not a rendering artifact.
+
+- Curves: steps(2n) = steps(n) + 1, with no exceptions up to 100,000. Doubling chains climb one step per doubling, which traces log₂ curves.
+- Dashes: 8k + 4 and 8k + 5 always merge after three steps, for every integer k. In general the first m moves depend only on n mod 2ᵐ (Terras, 1976).
+- The mod-8 statistics are nearly the same for positive and negative numbers (46.0% and 46.6% of neighbours have equal step counts).
+
+**The prime-spiral layout.** The arms come from the layout itself, because 2π ≈ 44/7. Which cycle a negative number reaches is nearly independent of its arm (29–37% per class mod 44). Nearby numbers share a cycle more often than chance, and the effect fades smoothly with distance, with no extra jump at 44, 710 or 1024:
+
+| Distance | Same cycle |
+| --- | --- |
+| 1 | 60.6% |
+| 44 | 38.5% |
+| 1000 | 33.7% |
+| chance | 33.4% |
+
+The likely reason is that nearby orbits merge, as 8k + 4 and 8k + 5 do. That is not yet proven.
+
+**The look-alike lesson again.** The negative integers follow the same rule as the positive ones but have extra cycles. So a proof that every positive start reaches 1 must use something that fails for negatives. The sign inside ∏(1 + 1/3n) is one place it shows up.
+
+&#91;image: Every integer from −20000 to 20000 by the cycle it falls into. Script: collatz_negative.py.\]
+
+&#91;image: Collatz on the complex plane, with zooms at 0, 1, −1 and −5. Script: collatz_complex.py.\]
+
+&#91;image: The basin next to −1 and the filled Julia set of z² + 0.1872. Script: collatz_julia.py.\]
+
+&#91;image: Doubling chains and the 8k + 4, 8k + 5 merge. Script: collatz_structure.py.\]
+
+&#91;image: Primes, positive n by steps, and negative n by cycle in the prime-spiral layout. Script: collatz_polar.py.\]
+
+### Results that came up in session 2
+
+| Result | Who, when | Status | What it says here |
+| --- | --- | --- | --- |
+| Davenport–Heilbronn function | Davenport and Heilbronn, 1936 | Proven | A flower with the same functional equation as ζ but zeros off the line. |
+| Zero-free line Re s = 1 via 3 + 4cos φ + cos 2φ ≥ 0 | Hadamard, de la Vallée Poussin (1896); Mertens (1898) | Proven | The model of a geometric argument that uses the primes. |
+| Landau's formula | Landau, 1912 | Proven | Winding the petals by log x leans toward π exactly at prime powers. |
+| Zeros of ζ′ and off-line zeros | Levinson and Montgomery, 1974 | Proven | Behind target C. |
+| aγ is evenly distributed mod 1 | Hlawka, 1975 | Proven | The petal spiral has no arms. |
+| Re(ξ′/ξ) > 0 right of the line ⇔ RH | Lagarias, 1999 | Proven equivalence | Target D; Newton for ξ moves toward the line. |
+| \|ξ\| increases away from the line ⇔ RH | Sondow and Dumitrescu, 2010 | Proven equivalence | Target D. |
+| De Bruijn–Newman constant is at least 0 | Rodgers and Tao, 2020 | Proven | No slack on the line. |
+| Generalized Collatz problems can be undecidable | Conway, 1972 | Proven | Collatz-like rules can be as hard as any problem. |
+| First m moves depend only on n mod 2ᵐ | Terras, 1976 | Proven | The dashes in the steps plot. |
+| Cycle equation and cycle-length bounds | Steiner, 1977, and later work | Proven | The multiplier 3ᵏ/2ᵐ = 1/∏(1 + 1/3n). |
+| Collatz on the 2-adic integers is conjugate to a shift | Lagarias, 1985 | Proven | The 2-adic view of Collatz. |
+| Entire extension of Collatz | Letherman, Schleicher and Wood, 1999 | Studied | Our complex pictures. |
+| Almost all orbits reach almost bounded values | Tao, 2019 | Proven | The strongest partial result on Collatz. |
+| Trigonometric proofs of Pythagoras | Calcea Johnson and Ne'Kiya Jackson, 2023–2024 | Published | The inspiration for step 16. |
+| Every positive start reaches 1 | Collatz conjecture | Open | |
+| Only three cycles on the negatives | Conjecture | Open | |
+
+### Open threads after session 2
+
+- [ ] The core observation about the flower (not yet revealed)
+- [ ] The Collatz patterns you found for negative and complex numbers (not yet revealed)
+- [ ] Julia copies next to the 18-cycle at −17, where the twin is only 4·10⁻⁷ away
+- [ ] Why nearby numbers share a cycle: check whether orbit merging explains the whole curve
+- [ ] Is "Newton for ξ moves toward the line" stated in this form in the literature?
+- [ ] Draw the zero spectrum for the Davenport–Heilbronn function (expect no clean prime spikes)
+- [ ] Carried over: which zero of ζ″ is the canonical seed; what in the 4D picture singles out Re(s) = ½
+
+### Code added in session 2
+
+| File | What it does |
+| --- | --- |
+| davenport\_heilbronn.py | ζ's flower next to the Davenport–Heilbronn flower, and the Newton step direction for both completed functions. |
+| zeros.py | All zeros up to a height (Riemann–Siegel with tabulated corrections, mpmath below 300), cached in output/. |
+| zero\_polar.py | The petals in the prime-spiral layout, angles γ·log x, and the prime spectrum. |
+| collatz\_negative.py | Every start in −N…N by the cycle it reaches. |
+| collatz\_complex.py | The complex extension with zooms at 0, 1, −1, −5. |
+| collatz\_twins.py | The twin cycle next to each integer cycle. |
+| collatz\_julia.py | The basin next to −1 against the filled Julia set of z² + c. |
+| collatz\_structure.py | Doubling chains and the 8k + 4, 8k + 5 merge. |
+| collatz\_polar.py | Collatz in the prime-spiral layout. |

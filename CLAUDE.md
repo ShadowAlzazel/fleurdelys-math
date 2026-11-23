@@ -19,6 +19,7 @@ A personal geometry playground around ζ(s). It is **not** a proof of the Rieman
 - Keep three things separate: proven theorems, open conjectures, and numerical observations from our code.
 - Check numbers before stating them. `zeta_fast.py` should be cross-checked against `mpmath` when accuracy matters.
 - When a request is ambiguous (for example "iterate"), take the likeliest reading, say which one you took, and offer the alternative.
+- Documents are append-only (the user's rule, session 2): extend a document or create a new one; never rewrite earlier text. Corrections go in a new section. This covers the notes, the notes from Claude, and the write-up on claude.ai.
 
 ## Math context, compressed
 
@@ -110,3 +111,13 @@ python davenport_heilbronn.py    # zeta vs a look-alike with off-line zeros (New
 - [ ] What in the 4D picture singles out Re(s) = ½. The parameter plane only sees values of ζ, not which s produced them. Newton for ξ (not ζ) does see it: the line is invariant, and RH ⇔ the line pulls from both sides (target D).
 - [ ] Any observation must pass the Davenport–Heilbronn test (it must use the primes).
 - [ ] The user's fuller picture of Fleurdelys, beyond what is drawn so far
+- [ ] The user's own Collatz patterns for negative and complex numbers (not yet revealed)
+- [ ] Julia copies next to the 18-cycle at −17 (twin only 4·10⁻⁷ away)
+- [ ] Why nearby numbers share a cycle: does orbit merging explain the whole decay curve?
+- [ ] Is "Newton for ξ moves toward the line" stated in this form in the literature?
+- [ ] Zero spectrum for the Davenport–Heilbronn function (expect no clean prime spikes)
+
+## Session log
+
+- Session 1 (Nov 22, 2026): the flower, Newton on ζ, Mandelbrot copies, 3D viewer. Notes from the start through "Code".
+- Session 2 (Nov 23, 2026): proof targets, the Davenport–Heilbronn test, the petal spectrum, Collatz. See "Session 2" at the end of `Fleurdelys notes on the zeta flower.md`, "Session 2 note" in `A note from Claude Fleurdelys.md`, and the same section appended to the write-up on claude.ai.
