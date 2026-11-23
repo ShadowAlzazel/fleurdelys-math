@@ -537,3 +537,57 @@ With 35,673 zeros up to height 30,000 (matching mpmath's count exactly), the spe
 | petal\_spectrum.py | The zero spectrum up to x = 100 with twin primes marked, and spike height against log p. |
 | strip\_spiral.py | The critical strip wrapped onto the spiral, unrolled, and Z(t). |
 | zeros.py (rerun) | 35,673 zeros up to height 30,000, cached. |
+
+## Session 2, continued: pair spacing and spectroscopy (Nov 23, 2026)
+
+### Journey log, continued
+
+| Step | Idea or question | What we found |
+| --- | --- | --- |
+| 31 | Does the spacing between pairs of zeros hear twin primes? | Yes, collectively. The Fourier transform of the pair spacing bends at τ = 1 and goes flat, which is where prime pairs (p, p + h) enter, twin primes being h = 2. It cannot single out twin primes from the other gaps. |
+| 32 | The side view looks like a wave: Fourier analysis (the user works with Fourier transforms) | The spectrogram of Z(t) shows one chirp line for every whole number n. Summing waves cos(t·log p) over the primes gives back peaks at the zeros. |
+| 33 | The same analysis on twin primes only | Twin primes hear the zeros more strongly than random primes of the same count. So do cousin and sexy primes; isolated primes hear them upside down. It is about primes clustering, not twins alone. |
+
+### Pair spacing hears prime pairs
+
+The zeros are first rescaled to average spacing 1 (35,644 zeros between heights 100 and 30,000).
+
+- **Pair correlation:** zeros repel at short distance. Only 705 pairs sit closer than 0.3 spacings, where independent points would give about 10,700 and random-matrix theory (GUE, Montgomery's conjecture) predicts about 980. The curve follows GUE closely. The small, significant deviations (χ² per bin about 4) are expected at finite height; Bogomolny, Bohigas, Leboeuf and Monastra (2006) explained them with prime corrections. We have not fitted their formula.
+- **Form factor (its Fourier transform):** rises with slope 1.06 up to τ = 1, then flattens to 1.000 ± 0.021. If each prime only paired with itself, it would keep rising.
+- **What this means:** heuristically, the flat part comes from pairs of primes (p, p + h) following the Hardy–Littlewood prime-pair statistics. Twin primes are the h = 2 term, but every even gap contributes. Montgomery (1973) proved the rising part assuming RH. Goldston and Montgomery (1987) tied the flat part to how primes spread in short intervals. Bogomolny and Keating (1996) derived the whole curve from the prime-pair conjecture. So the pair spacing hears all prime pairs together; at our heights it cannot single out twin primes.
+- **Extra spikes, observed in our code:** a spike at τ = 1.000 matches Gram's law, since the rescaled zeros pile up halfway between whole numbers (the middle tenths hold about 4,400 zeros each, the edge tenths about 2,700). Spikes near τ = 1.09 and 1.23 survive changes in smoothing and bin size and drift slightly with height. They are not explained yet.
+
+&#91;image: Pair correlation against GUE, and the form factor bending at τ = 1. Script: pair_spacing.py.\]
+
+### Spectroscopy of the flower
+
+**The side-view wave.** Riemann–Siegel writes Z(t) as a sum of waves cos(θ(t) − t·log n), one for every whole number n up to √(t/2π). Its spectrogram (short-time Fourier transform, t from 200 to 2600) shows exactly those chirp lines at angular frequency ½·log(t/2π) − log n, labelled n = 1 to 20. The lines are all integers, not only primes.
+
+**From integers to primes.** The Dirichlet series of ζ has a term at every log n. Its logarithm keeps only prime powers: log ζ(s) = Σ Λ(n)/log n · n^(−s). In signal-processing language this is like a cepstrum, the spectrum of the log of a spectrum. It is an analogy, but an exact formula sits under it.
+
+**Primes back to zeros.** The wave −Σ (log p)·p^(−1/2)·cos(t·log p) over prime powers up to 2,000,000 peaks at every zero up to t = 100, with a line strength of 3.10 standard deviations.
+
+### Which primes hear the zeros
+
+Line strength is the mean of the wave at the 29 zeros between 12 and 100, in standard deviations. Each subset is compared with random primes that have the same count in every range [2ʲ, 2ʲ⁺¹).
+
+| Subset of primes up to 2,000,000 | Count | Line strength | Matched random | Difference |
+| --- | --- | --- | --- | --- |
+| twin (p ± 2 prime) | 29,741 | 2.12 | 1.76 ± 0.10 | +3.8 sd |
+| cousin (p ± 4 prime) | 29,483 | 1.91 | 1.68 ± 0.09 | +2.5 sd |
+| sexy (p ± 6 prime) | 53,931 | 2.43 | 2.18 ± 0.08 | +3.1 sd |
+| isolated (no prime within 6) | 59,302 | −0.60 | 0.73 ± 0.18 | −7.6 sd |
+
+This is an observation from our code, at one range of X and only 29 zeros. The heuristic reading, not proven: the zeros encode where primes are locally denser or sparser. Where they are denser, pairs are denser by roughly the square and isolated primes are rarer. So pairs amplify the zeros' signal and isolated primes invert it. This is about primes clustering, and twin primes are one case of it. We have not checked the literature for this exact experiment.
+
+&#91;image: Spectrogram of Z(t), and the prime wave over all prime powers, twin primes and a matched random control. Script: zeta_spectroscopy.py.\]
+
+&#91;image: Line strength for twin, cousin, sexy and isolated primes against matched random primes. Script: prime_subsets.py.\]
+
+### Code added
+
+| File | What it does |
+| --- | --- |
+| pair\_spacing.py | Pair correlation of the zeros and its Fourier transform (form factor), against GUE. |
+| zeta\_spectroscopy.py | Spectrogram of Z(t); the prime wave over all primes, twin primes and a random control. |
+| prime\_subsets.py | Line strength for twin, cousin, sexy and isolated primes against matched random primes. |
