@@ -40,11 +40,29 @@ A personal geometry playground around ζ(s). It is **not** a proof of the Rieman
 | Critical value ζ(w), the hub where basins meet | 0.43166 + 0.09786i |
 | First Mandelbrot copy (period-2 center) | c ≈ −0.43193 + 0.46305i, about 0.03 across |
 | Other period-2 centers | −0.0316 − 0.3925i, 0.8361 − 0.5916i, 1.3097 + 0.8523i, … (`find_centers.py`) |
-| Centers in window Re −2.2..4.2, Im −2.7..2.7 | 10 of period 2, 76 of period 3 |
+| Centers in window Re −2.2..4.2, Im −2.7..2.7 | 10 of period 2 (stable); at least 109 of period 3 (random-start search, not exhaustive: single runs find 71–101) |
 | ζ(½) | ≈ −1.4604 |
 | Zeros up to t = 50 / 1000 | 10 / 649 |
 | Closest pair among first 400 zeros | #363, #364 at 630.4739, 630.8058 (gap 24% of mean) |
 | Lehmer pair | #6709, #6710 at 7005.0629, 7005.1006 (gap 0.038, petal reach 0.004) |
+| Davenport–Heilbronn off-line zeros | 0.80852 + 85.69935i, 0.65083 + 114.16334i (checked to 25 digits) |
+
+## What a geometric proof of RH must do (session 2)
+
+Four targets, each **proven equivalent** to RH. Proving any one for ζ proves RH.
+
+- **A. Counting:** petals through 0 up to height T equal N(T), for every T (argument principle; Turing's method checks it numerically).
+- **B. Off-line slices miss 0:** for every ½ < σ < 1, t ↦ ζ(σ + it) never hits 0.
+- **C. No folds:** ζ′ ≠ 0 in 0 < Re s < ½ (Speiser 1934; Levinson–Montgomery 1974).
+- **D. Valley:** |ξ(σ + it)| strictly increases as σ moves away from ½ (Sondow–Dumitrescu 2010) ⇔ Re(ξ′/ξ) > 0 for Re s > ½ (Lagarias 1999). In our language: **RH ⇔ every Newton step for ξ right of the line moves left** (one line from Lagarias; an equivalence, not progress; not yet checked whether it is stated this way in the literature). Numerically: 0 of 3,240 grid points right of the line move right for t in [82, 90].
+
+No slack, both proven: Rodgers–Tao (Λ = 0 if RH holds) and Bohr (for ½ < σ < 1 the curve comes arbitrarily close to 0). So no "safe margin" argument can work.
+
+**The Davenport–Heilbronn test.** f(s) = ((1 − iκ)/2)·L(s, χ) + ((1 + iκ)/2)·L(s, χ̄), χ mod 5 with χ(2) = i, κ = (√(10 − 2√5) − 2)/(√5 − 1). It has the same functional-equation shape as ζ and draws a similar flower, but it has zeros off the line and no Euler product. Between t = 82 and 90 its turning predicts about 5.4 petals, 3 pass through 0, and the off-line pair accounts for the other 2. Its Newton field breaks near the off-line pair (50 grid points right of the line move right).
+
+Consequence: any argument using only the functional equation, symmetry, petal shape, growth or general Newton/Mandelbrot dynamics also "proves" a falsehood about f. A proof must use the Euler product (the primes) somewhere. Model of a geometric argument that does: 3 + 4cos φ + cos 2φ ≥ 0 prime by prime gives no zeros on Re s = 1 (prime number theorem).
+
+**Test for any proposed property P:** (1) ζ provably has P at all heights, (2) P implies one of A–D, (3) the Davenport–Heilbronn function lacks P. Run `davenport_heilbronn.py` side by side.
 
 ## Code
 
@@ -56,6 +74,7 @@ python mandelbrot_copy.py        # parameter plane zoom, one seed
 python overlay.py                # flower on the parameter plane
 python find_centers.py --period 3
 python near_misses.py            # slow (mpmath)
+python davenport_heilbronn.py    # zeta vs a look-alike with off-line zeros (Newton field ~15 min)
 # open web/flower3d.html in a browser for the 3D viewer
 ```
 
@@ -69,5 +88,6 @@ python near_misses.py            # slow (mpmath)
 
 - [ ] The user's core observation about the flower (not yet revealed)
 - [ ] Which zero of ζ″ is the canonical seed, or how to combine all of them
-- [ ] What in the 4D picture singles out Re(s) = ½. The parameter plane only sees values of ζ, not which s produced them.
+- [ ] What in the 4D picture singles out Re(s) = ½. The parameter plane only sees values of ζ, not which s produced them. Newton for ξ (not ζ) does see it: the line is invariant, and RH ⇔ the line pulls from both sides (target D).
+- [ ] Any observation must pass the Davenport–Heilbronn test (it must use the primes).
 - [ ] The user's fuller picture of Fleurdelys, beyond what is drawn so far

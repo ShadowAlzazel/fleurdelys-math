@@ -135,7 +135,7 @@ The first two are the closest pairs among the first 400 zeros. Petal reach is th
 The parameter c of ζ(s) − c lives in the same plane as the flower: both are values of ζ. So the flower can be drawn directly on the Newton parameter plane.
 
 - All colored basins spiral together at the critical value ζ(w) ≈ 0.4317 + 0.0979i. At that c the seed is itself a root, the analog of the center c = 0 of the Mandelbrot set. It sits among the petals near 1, not at the origin where the petals meet.
-- In the window Re(c) from −2.2 to 4.2, Im(c) from −2.7 to 2.7: 10 period-2 centers and 76 period-3 centers. They lie along the fractal borders between basins, with no visible pattern relative to the petals or the origin.
+- In the window Re(c) from −2.2 to 4.2, Im(c) from −2.7 to 2.7: 10 period-2 centers and at least 109 period-3 centers (the earlier figure of 76 came from a single random-start search, which is not exhaustive). They lie along the fractal borders between basins, with no visible pattern relative to the petals or the origin.
 - Gray region: the seed's orbit escapes to infinity. The big outer petals pass through it.
 - Closing the loop in 3D: with t from −50 to 50 the curve hits the axis 20 times (10 zeros and their mirrors) and joins through ζ(½) ≈ −1.46 at t = 0.
 

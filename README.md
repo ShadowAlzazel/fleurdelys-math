@@ -35,6 +35,7 @@ Each one saves a PNG into `output/`. Run any with `--help` to see its options.
 | `overlay.py` | The flower drawn on that parameter plane, with Mandelbrot centers marked | ~30 s |
 | `find_centers.py` | Prints centers of Mandelbrot copies (c values where the seed is periodic) | ~10 s |
 | `near_misses.py` | Closest pairs of zeros ("twin petals") and the Lehmer pair | ~1 min |
+| `davenport_heilbronn.py` | ζ's flower next to the Davenport–Heilbronn function, a look-alike with zeros off the line; Newton step direction for both completed functions | flowers seconds, Newton field ~15 min |
 
 Examples:
 
