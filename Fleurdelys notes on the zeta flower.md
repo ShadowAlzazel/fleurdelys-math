@@ -770,3 +770,49 @@ The hourglass is the 3D curve t ↦ (Re F(½ + it), Im F(½ + it), t), seen from
 The 4D view draws ζ(σ + it) for σ = 0.3, 0.5 and 0.7 in one 3D frame. Only σ = ½ touches the axis (20 hits, closest 0.002); σ = 0.3 and 0.7 stay at least 0.172 and 0.147 away for t in ±50. Off the line they do come arbitrarily close at larger heights (Bohr), so this distance is not a margin.
 
 &#91;image: The 3D hourglass for six functions, and ζ's σ = 0.3, 0.5, 0.7 slices. Script: fleurdelys_3d.py.\]
+
+## Session 2, continued: the flower as a bouncing ball (Nov 23, 2026)
+
+### Journey log, continued
+
+| Step | Idea or question | What we found |
+| --- | --- | --- |
+| 42 | The side view looks like a bouncing ball (elasticity and phase). What can we measure, and how does it compare with the π from two colliding blocks? | Bounce heights, elasticity, phase portrait, phase lag S(t) and Gram phase locking all have clean numbers. The blocks count steps of a fixed angle that fit in π; the flower counts half-turns (≈ π each) that fit in θ(T), off by the phase lag. |
+
+### The dictionary
+
+| Bouncing ball | The flower's side view |
+| --- | --- |
+| height y(t), hitting the floor | \|Z(t)\| = \|ζ(½ + it)\|, touching 0 at every zero |
+| phase portrait (y, p) | (Z, Z′/θ′), with local frequency θ′(t) ≈ ½·log(t/2π) |
+| energy, falling by e² per bounce | squared amplitude of each petal |
+| elasticity e = 0.8, constant | e_n = reach of petal n + 1 ÷ reach of petal n, fluctuating |
+
+### What we measured (zeros up to 10,000)
+
+- **Phase portrait:** each petal is a near-circle in (Z, Z′/θ′), like an elastic oscillator whose energy gets a random kick at every bounce.
+- **Elasticity** (10,140 bounces): the median e_n is 0.990 and the average of log e_n is 0.0000. Half the bounces go higher (49.6%) and half lower, with a wide spread (standard deviation of log e_n 1.39). Consecutive values are anti-correlated (−0.41): a high bounce tends to follow a low one. The ball always loses energy; the flower neither gains nor loses on average.
+- **The law of the bounce heights:** Selberg's central limit theorem (1946, proven) says log|ζ(½ + it)| is close to normal with variance ½·log log t. At 40,000 random t between 5,000 and 10,000, the measured variance is 1.71. Selberg's leading term gives 1.09; Keating and Snaith's random-matrix model (2000), ½(log N + γ + 1) with N = log(t/2π), gives 1.77. The measured distribution is also skewed, with a long left tail from near-zeros, as random matrices predict. The normal shape appears only at enormous heights.
+- **Phase lag S(t) = N(t) − θ(t)/π − 1:** zeros counted minus the clock θ/π. Mean +0.0001, standard deviation 0.41, largest |S| 1.43 up to 10,000. Selberg's leading-order spread is √(log log t / 2π²); lower-order terms add more at these heights. Turing's method for checking RH numerically relies on S averaging to 0.
+- **Phase locking (Gram's law):** Gram points are where θ(t) passes a multiple of π. Of 10,141 Gram intervals up to 10,000, 83.8% hold exactly one zero, 8.1% none, 8.0% two and 0.1% three. The first failure is the interval starting at t = 280.80, between Gram points 125 and 126, as Hutchinson found in 1925. Empty and double intervals balance, which is the phase lag averaging to 0.
+
+### Colliding blocks and π
+
+Two blocks with masses 1 and 100ᵏ, perfectly elastic, against a wall, collide 3, 31, 314, 3141, 31415, 314159 times (our simulation, k = 0 to 5). Galperin (2003) explained why: in the coordinates (√m₁·v₁, √m₂·v₂), energy conservation is a circle, and each collision turns the state by the same angle 2·arctan(√(m₁/m₂)). The collisions stop once the turns add up to π, so the count is about π ÷ arctan(√(m₁/m₂)).
+
+The comparison with the flower:
+
+| | Blocks | Flower |
+| --- | --- | --- |
+| Phase space | a circle (energy conserved, elastic) | near-circles of changing size (energy kicked at each bounce) |
+| Turn per step | exactly 2·arctan(√(m₁/m₂)) | about π per petal, on average |
+| What is counted | collisions ≈ π ÷ (turn per step) | petals ≈ θ(T) ÷ π |
+| Error in the count | none (the turn is exactly constant) | the phase lag S(T), which stays small but is never 0 for long |
+
+It is the same mechanism as the spiral arms and the star shapes: rotation by a fixed angle, counted against a full or half turn. The inelastic ball is the third case: its energy shrinks, so its phase portrait spirals inward. RH's counting target A says the flower's count must keep up exactly: every half-turn of the clock is paid for by a zero on the line, up to the bounded phase lag.
+
+&#91;image: The flower as a bouncing ball: \|Z(t)\| bounces, phase portrait, elasticity histogram, phase lag S(t), the law of log\|ζ\|, and the colliding blocks on their energy circle. Script: zeta_bounce.py.\]
+
+| File | What it does |
+| --- | --- |
+| zeta\_bounce.py | Bounces, phase portrait, elasticity, phase lag, Selberg's law and the colliding blocks. |
