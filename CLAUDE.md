@@ -84,6 +84,14 @@ python davenport_heilbronn.py    # zeta vs a look-alike with off-line zeros (New
 - Outputs go to `output/` (git-ignored).
 - Conventions: NumPy-vectorized math, argparse options on every script, plain matplotlib. Keep scripts small and runnable on their own.
 
+## Collatz thread (session 2, a new field; no known link to RH)
+
+- Negatives: 3n + 1 on negatives is 3n − 1 on positives. Down to −10⁶, every start lands in one of three cycles: (−1, −2), (−5, −14, −7, −20, −10), and an 18-cycle from −17. Each takes roughly a third of starts. Conjectured: no others.
+- Complex extension f(z) = (2 + 7z − (2 + 5z)cos πz)/4 (Letherman–Schleicher–Wood 1999). f′(n) = ½ (even) or 3 (odd), so an integer cycle with k odd and m even steps has multiplier 3^k/2^m = 1/∏(1 + 1/(3n)) over its odd members. That product is the classical cycle equation used for cycle-length bounds (Steiner 1977 onward). Consequence (one line): positive integer cycles are attracting, negative ones repelling.
+- Observed in our code: each integer cycle has a non-integer twin cycle very close by with multiplier ≈ 2 − λ (stability flipped). Offsets: 1.5e−3 (1,4,2), 5.7e−3 (−1,−2), 6.5e−5 (−5…), 4.4e−7 (−17…). Expected from generic holomorphic dynamics (two nearby fixed points of f^p); the twins depend on the chosen extension, the integer multipliers do not.
+- The 1 → 4 → 2 basin in ℂ is tiny (radius about 0.01); its repelling twin bounds it.
+- Parallel with the Davenport–Heilbronn test: the negative integers follow the same rule but have extra cycles, so a proof for the positive integers must use something that fails for the negatives (the sign in ∏(1 + 1/(3n)) is one place it enters).
+
 ## Open threads
 
 - [ ] The user's core observation about the flower (not yet revealed)
