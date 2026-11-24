@@ -856,3 +856,43 @@ Counts of twin pairs below x against Hardy–Littlewood's prediction 2C₂ ∫�
 | File | What it does |
 | --- | --- |
 | twin\_circle.py | The circle restatement, the 3-5-7 triple, and twin-pair counts against Hardy–Littlewood up to 10⁸. |
+
+## Session 2, continued: escape regions and chaos (Nov 24, 2026)
+
+### Journey log, continued
+
+| Step | Idea or question | What we found |
+| --- | --- | --- |
+| 45 | Is "the Mandelbrot set above radius 2 is never bounded" the right property? How can chaos extend to RH and twin primes with our tools? | Yes, as the escape criterion: past radius max(2, \|c\|) an orbit never returns (0 of 367,448 random orbits came back). The same "one term dominates" argument gives ζ no zeros for Re s > 1 (Euler product). The hard questions (the set's boundary, the critical strip, twin primes) live where no term dominates: the chaotic region. |
+
+### The escape criterion
+
+If |zₙ| > 2 and |zₙ| ≥ |c|, then |zₙ₊₁| ≥ |zₙ|² − |c| ≥ |zₙ|(|zₙ| − 1) > |zₙ|, and the growth factor keeps increasing, so the orbit runs to infinity. Hence the Mandelbrot set lies in |c| ≤ 2, with c = −2 its only point on that circle. Checked on 400,000 random orbits: 367,448 crossed the radius and none came back.
+
+### One pattern, three problems
+
+| Problem | Easy region: one term dominates | Hard region: no term dominates |
+| --- | --- | --- |
+| Mandelbrot | \|z\| > max(2, \|c\|): squaring wins, the orbit escapes | the boundary of the set: fractal, chaotic |
+| Zeros of ζ | Re s > 1: the Euler product wins, \|ζ(s)\| ≥ ζ(2σ)/ζ(σ) > 0, no zeros (Re s < 0 by the functional equation) | the critical strip: values dense (Bohr), ζ imitates every nonvanishing function (Voronin) |
+| Prime patterns | inadmissible patterns: residues force a factor, finitely many (only 3, 5, 7 for p, p + 2, p + 4) | admissible patterns such as twin primes: residues never decide; the parity problem |
+
+### Measurements
+
+- **ζ's floor for Re s > 1:** the minimum of |ζ(σ + it)| over t ∈ [1, 600] sits above the proven floor ζ(2σ)/ζ(σ) at every σ > 1 sampled (σ = 1.3: 0.466 against 0.332; σ = 2.5: 0.783 against 0.773). In the strip it drops toward 0 (σ = 0.55: 0.04; σ = 0.5: the zeros).
+- **Davenport–Heilbronn right of 1 (a prediction of mine that failed):** I expected zeros with Re s > 1, since it has no Euler product. A search over t ≤ 3000 found none; its minimum stays above 0.19 (σ = 1.01: 0.196 at t ≈ 240.4). Without an Euler product there is no theorem keeping it away from 0 there, but at these heights it stays away anyway. Whether it has zeros right of 1 at all is a literature check, now an open thread.
+- **Chaos in ζ's Newton family:** the Lyapunov exponent along the real cascade is strongly negative in the period-3 window (about −2), touches 0 at each doubling, and is positive (up to +0.17) on 17% of the window: order, the cascade, then chaos.
+- **Quantum chaos:** the spacings between 35,643 neighbouring zeros follow the GUE curve, the signature of a chaotic quantum system without time reversal (Bohigas–Giannoni–Schmit 1984). Only 0.6% of spacings are below 0.2, against 18.1% for independent points (Poisson).
+
+### Where chaos meets RH and twin primes (known bridges, none a proof)
+
+- **Bagchi (1981):** RH holds exactly when ζ approximates its own shifts on the right half of the strip (strong recurrence). RH is equivalent to a recurrence property of a chaotic object.
+- **Quantum chaos:** Berry and Keating (1999) proposed a chaotic system whose energy levels would be the zeros, with periodic orbits of length log p, matching the spectrum lines in `petal_spectrum.py`. Chaos explains the spacing statistics; it does not by itself make the zeros real, which is what RH needs.
+- **Primes as chaos:** Sarnak's conjecture (2010) says the Möbius function does not correlate with any low-complexity (zero-entropy) dynamical system. Chowla's conjecture, about μ(n)μ(n + 2), is the Möbius cousin of the twin prime problem. Tao (2016) proved its logarithmically averaged two-point form using ideas from ergodic theory and entropy.
+
+&#91;image: Mandelbrot escape criterion, ζ's Euler-product floor against Davenport–Heilbronn, the Lyapunov exponent along ζ's Newton cascade, and the zero spacings against GUE. Script: chaos_bridges.py.\]
+
+| File | What it does |
+| --- | --- |
+| dh\_fast.py | Fast vectorized Dirichlet L-functions mod q and the Davenport–Heilbronn function (Euler–Maclaurin Hurwitz zeta), checked against mpmath. |
+| chaos\_bridges.py | Escape criterion, ζ's floor, Lyapunov exponent, zero spacings. |

@@ -6,8 +6,8 @@
 2. Zeta's escape region (proven, the Euler product): for Re s = sigma > 1,
    |zeta(s)| >= prod_p (1 + p^-sigma)^-1 = zeta(2 sigma) / zeta(sigma) > 0, so no zeros there.
    The floor is sharp (Kronecker). Inside the strip 1/2 < sigma < 1 there is no floor: the
-   minimum over t goes to 0 (Bohr). The Davenport-Heilbronn function has no Euler product and
-   no such floor: it has zeros even with sigma > 1 (if output/dh_right.json exists, they are drawn).
+   minimum over t goes to 0 (Bohr). The Davenport-Heilbronn function has no Euler product, so no
+   proven floor; numerically (output/dh_right.json, t up to 3000) it stays above 0.19 for sigma > 1.
 3. Chaos in zeta's own Newton family: the Lyapunov exponent lambda(c) along the real cascade
    (lambda < 0: settles on a cycle; lambda > 0: chaos).
 4. Quantum chaos: the spacing between neighbouring zeros follows the random-matrix (GUE) law,
@@ -127,7 +127,7 @@ if __name__ == "__main__":
     ax.semilogy(sig, floor, color=ORANGE, lw=1.6, label="proven floor ζ(2σ)/ζ(σ) for σ > 1 (Euler product)")
     if dh:
         ax.semilogy([d["sigma"] for d in dh["mins"]], [max(d["min"], 1e-6) for d in dh["mins"]], "s", color=INK, ms=6,
-                    label="Davenport–Heilbronn: min |f| (no Euler product, no floor)")
+                    label="Davenport–Heilbronn: min |f| for t ≤ 3000 (no Euler product, so no proven floor)")
         for zr in dh.get("zeros", []):
             ax.axvline(zr[0], color=INK, lw=0.8, ls=":")
             ax.text(zr[0], 2e-4, f" DH zero at\n {zr[0]:.4f} + {zr[1]:.2f}i", fontsize=7, color=INK)
