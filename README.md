@@ -60,6 +60,7 @@ Each one saves a PNG into `output/`. Run any with `--help` to see its options.
 | `feigenbaum_zeta.py` | Period-doubling cascade in ζ's Newton family on the real line; gap ratios approach Feigenbaum's 4.6692 | ~10 min |
 | `prime_fourier.py` | Fourier spectra of primes, twin primes and Collatz step counts, with predicted line heights | ~5 s |
 | `zeta_bounce.py` | The flower as a bouncing ball: bounces, phase portrait, elasticity, phase lag S(t), Selberg's law, colliding blocks and π | ~10 s |
+| `twin_circle.py` | A circle around the twin primes: the restatement, the 3-5-7 triple, counts against Hardy–Littlewood up to 10⁸ | ~5 s |
 | `davenport_heilbronn.py` | ζ's flower next to the Davenport–Heilbronn function, a look-alike with zeros off the line; Newton step direction for both completed functions | flowers seconds, Newton field ~15 min |
 
 Examples:

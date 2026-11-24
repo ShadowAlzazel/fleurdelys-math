@@ -816,3 +816,43 @@ It is the same mechanism as the spiral arms and the star shapes: rotation by a f
 | File | What it does |
 | --- | --- |
 | zeta\_bounce.py | Bounces, phase portrait, elasticity, phase lag, Selberg's law and the colliding blocks. |
+
+## Session 2, continued: the assistant's note, and a circle around the twin primes (Nov 24, 2026)
+
+### Journey log, continued
+
+| Step | Idea or question | What we found |
+| --- | --- | --- |
+| 43 | The user's other assistant: the bloom rate gives N(T) = θ(T)/π + 1 + S(T), so all the difficulty sits in S(T), and the Euler product must force each half-turn to make a petal | Mostly right, three refinements. θ(t) also has a −t/2 term. S(T) counts all zeros and is small without RH; the quantity that decides RH is the petal deficit N(T) − N₀(T) = 2 × (zeros right of the line). One petal per half-turn is Gram's law, which fails for ζ itself (16% of half-turns up to 10⁴). |
+| 44 | In the spiral layout, is "a circle of radius K containing all twin primes" the property if the twin prime conjecture is false? | Yes, exactly, but it is a restatement (finite = bounded). The arms can prove such a circle for inadmissible patterns (p, p + 2, p + 4: only 3, 5, 7), never for twin primes. Counts below 10⁸ follow Hardy–Littlewood to ratio 0.9999. |
+
+### Refinements to the assistant's note
+
+1. θ(t) = (t/2)·log(t/2π) − t/2 − π/8 + O(1/t). The −t/2 term is the same size as the count, so N(T) ≈ (T/2π)·log(T/2π) − T/2π + 7/8.
+2. N(T) = θ(T)/π + 1 + S(T) counts all zeros in the strip, on or off the line, whether or not RH holds. S(T) is proven to grow at most like log T without RH, and the Davenport–Heilbronn function also has a small S while skipping petals. The quantity that decides RH is the petal deficit N(T) − N₀(T) = 2 × (number of zeros with real part above ½, up to height T), where N₀(T) counts the petals through 0 (sign changes of Z). Following the phase along the line counts petals; following it around the strip gives S(T); the two differ exactly by the off-line zeros. For Davenport–Heilbronn the deficit jumps by 2 at t ≈ 85.70 and again at 114.16.
+3. One petal per half-turn is Gram's law. Up to 10⁴, 8.1% of half-turns hold no petal and 8.0% hold two (first failure at t = 280.80). The block version (Rosser's rule) is also known to fail eventually. RH needs only the running total N₀(T) to equal N(T), not one petal per half-turn. Any argument using one-per-half-turn hits check 4 (circularity) of the checklist.
+
+### A circle around the twin primes
+
+In the spiral layout the radius is the number, so the twin prime conjecture is false exactly when some circle of radius K contains every twin prime. That is a correct equivalence, and a restatement: finite and bounded say the same thing.
+
+The circle does separate patterns that residues can decide from those they cannot:
+
+- **(p, p + 2, p + 4):** one of the three is always divisible by 3, so the only such triple of primes is 3, 5, 7. A circle of radius 7 traps them, provably (our search below 10⁶ finds only 3).
+- **(p, p + 2):** for every prime q it uses only 2 of q's residues, so the arms always leave room. Residues alone can never trap twin primes in a circle, and whether something else does is the twin prime conjecture itself.
+- **Proven:** pairs of primes at most 246 apart cannot be trapped by any circle (Zhang 2013; Maynard and Tao; Polymath). Brun (1919): the twin primes are sparse enough that the sum of their reciprocals converges (Brun's constant ≈ 1.902; our partial sum up to 10⁸ is 1.7588).
+
+Counts of twin pairs below x against Hardy–Littlewood's prediction 2C₂ ∫₂ˣ dt / log²t:
+
+| x | Twin pairs | Hardy–Littlewood | Ratio |
+| --- | --- | --- | --- |
+| 100 | 8 | 14 | 0.591 |
+| 10,812 | 218 | 227 | 0.961 |
+| 1,168,952 | 9,376 | 9,403 | 0.997 |
+| 100,000,000 | 440,312 | 440,368 | 0.9999 |
+
+&#91;image: Twin primes up to 3000 in the spiral layout with the circle through the last pair, the 3-5-7 triple in its radius-7 circle, and twin-pair counts against Hardy–Littlewood up to 10⁸. Script: twin_circle.py.\]
+
+| File | What it does |
+| --- | --- |
+| twin\_circle.py | The circle restatement, the 3-5-7 triple, and twin-pair counts against Hardy–Littlewood up to 10⁸. |
