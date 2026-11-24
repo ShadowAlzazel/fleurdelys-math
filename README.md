@@ -63,6 +63,10 @@ Each one saves a PNG into `output/`. Run any with `--help` to see its options.
 | `twin_circle.py` | A circle around the twin primes: the restatement, the 3-5-7 triple, counts against Hardy–Littlewood up to 10⁸ | ~5 s |
 | `chaos_bridges.py` | Escape criterion, ζ's Euler-product floor vs Davenport–Heilbronn, Lyapunov exponent along ζ's Newton cascade, zero spacings vs GUE | ~1 min |
 | `dh_fast.py` | Fast vectorized Dirichlet L-functions and the Davenport–Heilbronn function (checked against mpmath) | instant |
+| `petal_ledger.py` | The petal ledger: all zeros N(T) against petals through 0, N₀(T), for ζ, L(s, χ₄), Davenport–Heilbronn | ~15 s |
+| `xi_pull.py` | Where Newton's method for the completed function moves toward the line, and how strongly | ~30 s |
+| `euler_product.py` | Partial Euler-product flowers, the 3-4-1 trick, and the log-coefficients | ~5 s |
+| `eigen_rh.py` | Redheffer matrix (det = Mertens), its eigenvalues, M(n)/√n, random-matrix spacings | ~10 s |
 | `davenport_heilbronn.py` | ζ's flower next to the Davenport–Heilbronn function, a look-alike with zeros off the line; Newton step direction for both completed functions | flowers seconds, Newton field ~15 min |
 
 Examples:

@@ -896,3 +896,66 @@ If |zₙ| > 2 and |zₙ| ≥ |c|, then |zₙ₊₁| ≥ |zₙ|² − |c| ≥ |z�
 | --- | --- |
 | dh\_fast.py | Fast vectorized Dirichlet L-functions mod q and the Davenport–Heilbronn function (Euler–Maclaurin Hurwitz zeta), checked against mpmath. |
 | chaos\_bridges.py | Escape criterion, ζ's floor, Lyapunov exponent, zero spacings. |
+
+## Session 2, continued: the petal ledger, the pull of the line, the Euler product, and eigenvalues (Nov 24, 2026)
+
+### Journey log, continued
+
+| Step | Idea or question | What we found |
+| --- | --- | --- |
+| 46 | Build the petal ledger (item 1) | ζ and L(s, χ₄): deficit 0 at every height up to 200. Davenport–Heilbronn: deficit jumps by 2 at t ≈ 85.8, 114.2, 166.5, 176.8, its four off-line zeros. |
+| 47 | Newton for ξ as a dynamical system (item 2) | For ζ and L(s, χ₄), every one of 398,000 grid points right of the line is pulled toward it. Davenport–Heilbronn has 498 points pushed away, in four pockets at exactly its off-line zeros. |
+| 48 | The Euler product, the special part | Partial Euler products never reach 0; the 3-4-1 trick holds for ζ and fails for Davenport–Heilbronn; ζ's "cepstrum" lives only on prime powers. |
+| 49 | Eigenvalues (where the user's journey started) | The Redheffer matrix: det = Mertens function, so RH is a statement about determinants of a 0/1 matrix. Its eigenvalues: two near ±√n, ⌊log₂ n⌋ − 1 small ones, and 1 repeated. The zeros space like eigenvalues of a random Hermitian matrix. |
+
+### The petal ledger (`petal_ledger.py`)
+
+N(T) comes from the argument principle on the completed function, along 2 → 2 + iT → ½ + iT; N₀(T) counts sign changes of the completed function on the line. Heights within 0.01 of a zero are skipped (two early versions of the grid landed on zeros and showed fake one-step blips).
+
+| Function | N(200) | N₀(200) | Deficit | Deficit jumps |
+| --- | --- | --- | --- | --- |
+| ζ | 79 | 79 | 0 | none; N(T) equals the stored zero list at every T |
+| L(s, χ₄) | 122 | 122 | 0 | none |
+| Davenport–Heilbronn | 129 | 121 | 8 | +2 at t ≈ 85.8, 114.2, 166.5, 176.8 |
+
+The four Davenport–Heilbronn jumps are its off-line zeros near 0.808 + 85.70i, 0.651 + 114.16i, and two more near t ≈ 166.5 and 176.8.
+
+### The pull of the line (`xi_pull.py`)
+
+On a grid of 398,000 points with ½ < σ ≤ 1.5 and t ≤ 200:
+
+| Function | Points pushed away from the line | Weakest pull, min of Re(Λ′/Λ)/(σ − ½) |
+| --- | --- | --- |
+| ζ | 0 | +0.046 |
+| L(s, χ₄) | 0 | +0.160 |
+| Davenport–Heilbronn | 498, in pockets at t ≈ 85.5–86.0, 114.1–114.3, 166.5–166.6, 176.5–176.9 | −789 |
+
+The pull breaks exactly where the ledger jumps: the two tests see the same off-line zeros, one by counting and one by dynamics. For ζ both are equivalent to RH (targets A and D) and both hold here.
+
+### The Euler product (`euler_product.py`)
+
+- **Partial products never reach 0.** Each factor (1 − p⁻ˢ)⁻¹ is nonzero, so ∏ over p ≤ P has no petals through the origin. For t from 10 to 60 the closest approaches are 0.215 (P = 10), 0.115 (P = 100), 0.056 (P = 1000), against 0.0001 for ζ. On the line the product does not converge; its flowers are tangled, and the clean hourglass belongs to ζ itself. The primes reach the zeros indirectly, through the continuation and the explicit formula.
+- **The 3-4-1 trick** (Hadamard and de la Vallée Poussin 1896; Mertens 1898): for σ > 1, log|ζ(σ)³ζ(σ+it)⁴ζ(σ+2it)| ≥ 0, because prime by prime 3 + 4cos x + cos 2x = 2(1 + cos x)² ≥ 0. At σ = 1.05 and t ≤ 400: ζ never drops below +5.21; Davenport–Heilbronn goes down to −5.98 and is negative on 58% of t.
+- **The cepstrum:** the coefficients of log F. For ζ they are Λ(n)/log n, nonzero only at prime powers (composite values below 10⁻¹⁵). For Davenport–Heilbronn they reach 4.25 at composite n (6, 10, 12, 14, 15, 18, …). An Euler product is exactly the property that log F lives on prime powers.
+
+### Eigenvalues (`eigen_rh.py`)
+
+- **The Redheffer matrix** Aₙ (Redheffer 1977): 1 where i divides j, or j = 1. Its determinant is the Mertens function M(n) = μ(1) + … + μ(n) (checked at n = 10, 50, 100, 200, 300). RH is equivalent to M(n) = O(n^(½+ε)) for every ε > 0 (Littlewood 1912). So RH is a statement about the determinants of simple 0/1 matrices.
+- **Its eigenvalues** (n = 2000): two real ones at 48.49 and −40.70 (near ±√n = ±44.72, both shifted up), nine small ones (⌊log₂ n⌋ − 1 = 9, between about −0.14 and 0.95), and the eigenvalue 1 with multiplicity 1989 = n − ⌊log₂ n⌋ − 1 (Barrett, Forcade and Pollington 1988; Barrett and Jarvis 1992; Vaughan). The eigenvalue 1 is defective, so rounding spreads it into a small ring (radius up to 0.05) around 1.
+- **M(n)/√n up to 10⁷** stays below 0.57 in size (largest at n = 199). The stronger guess |M(n)| < √n (Mertens' conjecture) is false (Odlyzko and te Riele 1985), even though no counterexample has been found by computation: no slack again.
+- **Hilbert–Pólya:** if the zeros were eigenvalues of a self-adjoint operator they would be real, which is RH. No such operator is known, but the spacings of 35,643 zeros and of one random 2000 × 2000 Hermitian matrix follow the same GUE law.
+
+&#91;image: The petal ledger for ζ, L(s, χ₄) and Davenport–Heilbronn. Script: petal_ledger.py.\]
+
+&#91;image: Where a Newton step for the completed function moves toward or away from the line, and the weakest pull at each height. Script: xi_pull.py.\]
+
+&#91;image: Partial Euler-product flowers, the 3-4-1 trick, and the cepstrum of ζ and Davenport–Heilbronn. Script: euler_product.py.\]
+
+&#91;image: The Redheffer matrix, its eigenvalues, M(n)/√n up to 10⁷, and zero spacings against a random Hermitian matrix. Script: eigen_rh.py.\]
+
+| File | What it does |
+| --- | --- |
+| petal\_ledger.py | N(T) and N₀(T) for ζ, L(s, χ₄), Davenport–Heilbronn, and the petal deficit. |
+| xi\_pull.py | Direction and strength of the Newton pull toward the line for the three functions. |
+| euler\_product.py | Partial Euler products, the 3-4-1 trick, and the log-coefficients. |
+| eigen\_rh.py | Redheffer matrix, its eigenvalues, the Mertens function, and random-matrix spacings. |
