@@ -67,6 +67,7 @@ Each one saves a PNG into `output/`. Run any with `--help` to see its options.
 | `xi_pull.py` | Where Newton's method for the completed function moves toward the line, and how strongly | ~30 s |
 | `euler_product.py` | Partial Euler-product flowers, the 3-4-1 trick, and the log-coefficients | ~5 s |
 | `eigen_rh.py` | Redheffer matrix (det = Mertens), its eigenvalues, M(n)/√n, random-matrix spacings | ~10 s |
+| `hilbert_polya.py` | The map w = 1 − 1/s (critical line → unit circle), Li's λₙ, Davenport–Heilbronn zeros off the circle, random unitary eigenvalues vs zeros | ~20 s |
 | `davenport_heilbronn.py` | ζ's flower next to the Davenport–Heilbronn function, a look-alike with zeros off the line; Newton step direction for both completed functions | flowers seconds, Newton field ~15 min |
 
 Examples:

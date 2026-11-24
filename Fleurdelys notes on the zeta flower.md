@@ -959,3 +959,32 @@ The pull breaks exactly where the ledger jumps: the two tests see the same off-l
 | xi\_pull.py | Direction and strength of the Newton pull toward the line for the three functions. |
 | euler\_product.py | Partial Euler products, the 3-4-1 trick, and the log-coefficients. |
 | eigen\_rh.py | Redheffer matrix, its eigenvalues, the Mertens function, and random-matrix spacings. |
+
+## Session 2, continued: Hilbert–Pólya, the flower turned into a circle (Nov 24, 2026)
+
+### Journey log, continued
+
+| Step | Idea or question | What we found |
+| --- | --- | --- |
+| 50 | Hilbert–Pólya: transform the flower into "another flower" that forces the zeros onto the line | The map w = 1 − 1/s turns the critical line into the unit circle (right of the line → inside). RH ⇔ every zero lands on the circle ⇔ Li's λₙ ≥ 0 for all n (Li 1997; Bombieri–Lagarias 1999). ζ: all 35,673 zeros on the circle, λₙ positive and on the Keiper–Li curve. Davenport–Heilbronn: four pairs miss the circle by 3·10⁻⁶ to 4·10⁻⁵. |
+
+### The transformed plane (`hilbert_polya.py`)
+
+- **The map.** w = 1 − 1/s is a Möbius map. Each vertical line Re s = σ becomes a circle through w = 1: σ = ½ is the unit circle, σ = 0.7 a smaller circle inside it, σ = 0.3 a larger one outside, σ = 0 the vertical line Re w = 1. A zero ½ + iγ lands at angle about 1/γ, so all zeros crowd toward w = 1 (first zero at angle 0.071).
+- **ζ:** all 35,673 zeros up to height 30,000 sit on the circle to rounding (max ||w| − 1| = 2.2·10⁻¹⁶). This is just the input (they were computed on the line), not a test.
+- **Li's criterion** (proven equivalence). λₙ = Σ over zeros of [1 − (1 − 1/ρ)ⁿ]. RH ⇔ λₙ ≥ 0 for every n. From our zeros plus a tail estimate: λ₁ = 0.0230957, equal to the exact value 1 + γ/2 − ½ log 4π (γ = Euler's constant); λ₂ = 0.0923, λ₁₀ = 2.279, λ₁₀₀ = 118.60, λ₁₀₀₀ = 2326.1, λ₂₀₀₀ = 5351.8. The Keiper–Li size under RH is (n/2)(log n − 1 + γ − log 2π): 117.2, 2323.5, 5340.2. All positive in our sample (proven positive only for finitely many n; computed far beyond 2000 in the literature).
+- **Davenport–Heilbronn on the circle.** Its four zeros right of the line (σ = 0.8085, 0.6508, 0.5744, 0.7243 at γ = 85.70, 114.16, 166.48, 176.70) land inside the circle, their mirrors outside, by |w| − 1 = ±4.2·10⁻⁵, ±1.16·10⁻⁵, ±2.7·10⁻⁶, ±7.2·10⁻⁶, matching (2σ − 1)/(2γ²). The circle squeezes height, so the miss is tiny but real.
+- **No slack, again.** The mirror zero outside the circle contributes a term of size about 2(1 + δ)ⁿ. It passes the Keiper–Li size only at n ≈ 3.3·10⁵ (γ = 85.7), 1.3·10⁶, 2.2·10⁶, 6.3·10⁶. So Li's test sees an off-line zero only at very large n; it gets later the higher the zero. This is a crude envelope (the term oscillates, and DH has its own gamma factor), not a computed λₙ for DH.
+- **The "other flower".** 100 eigenvalues of a random 100 × 100 unitary matrix (CUE) lie on a circle and repel: smallest gap 0.19 × mean, 1% of gaps below 0.2 × mean. 100 consecutive zeros after #20,000, unfolded and wrapped onto a circle: 0.12 × mean, 2%. 100 independent random points: 0.017 × mean, 15%. The zeros look like eigenvalues, not like random points.
+
+### What this does and does not give (honest)
+
+- **Known:** the circle picture is Li's criterion (Li 1997; Bombieri–Lagarias 1999) and the Hilbert–Pólya idea (Pólya, Hilbert, about 1914; Montgomery–Dyson 1973; Odlyzko's numerics; Katz–Sarnak for function fields, where it is a theorem: the zeros are eigenvalues of Frobenius, Deligne 1974).
+- **The catch:** building a unitary matrix whose eigenvalues are the known zeros is trivial (put e^(iθ) on a diagonal). The whole difficulty is an operator built from the primes, not from the zeros, whose eigenvalues are provably the zeros. The explicit formula (zeros ↔ prime powers) has the shape of a trace formula, which is why people expect such an operator. Candidates: Berry–Keating (H = xp, 1999), Connes (adelic, 1999), Bender–Brody–Müller (2017; disputed). None is proven to work.
+- **Look-alike test:** the circle by itself is a restatement. Any operator proposed must fail for Davenport–Heilbronn (its zeros are not on the circle), so it must use the Euler product.
+
+&#91;image: The map w = 1 − 1/s, distance from the circle for ζ and Davenport–Heilbronn, Li's coefficients, and zeros against random unitary eigenvalues. Script: hilbert_polya.py.\]
+
+| File | What it does |
+| --- | --- |
+| hilbert\_polya.py | The Li/Cayley map w = 1 − 1/s, zeros on the unit circle, Li's λₙ, Davenport–Heilbronn off the circle, CUE eigenvalues vs zeros. |
