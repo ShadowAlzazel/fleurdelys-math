@@ -104,3 +104,5 @@ Reduced copies of every picture, in journey order and with one-line captions, ar
 ## The journey, start to finish
 
 New here? Read [`JOURNEY.md`](JOURNEY.md): a follow-along account of the whole exploration in pictures, with every claim marked as proven, open, or observed in our code.
+
+The same journey is also a web page: [`index.html`](index.html), built from `JOURNEY.md` by `python make_journey_html.py`. With GitHub Pages turned on for this repository (Settings → Pages → Deploy from a branch → `main`, `/ (root)`), it is served as the site's front page.

@@ -1107,3 +1107,13 @@ The full-size pictures live in `output/`, which git ignores. `images/` now keeps
 | 54 | Write the journey up for anyone who finds the repository | `JOURNEY.md`: a semi-formal, follow-along account in 13 sections, with 27 of the gallery pictures. Every claim is labelled Proven, Open or Observed; it ends with the lessons, a scorecard, how to run the code, and references by topic. It says plainly that it is not a proof of RH and that the author's own observation is still to come. |
 
 Two numbers were stated more carefully there than in a quick summary: the Mertens bound 0.568·√n holds from n = 100 to 10⁷ (the ratio is larger for small n, 0.89 at n = 5), and the Davenport–Heilbronn off-line zeros are described as computed here and documented in the literature, without a date range.
+
+## Session 2, continued: the journey as a web page (Nov 25, 2026)
+
+| Step | Idea or question | What we found |
+| --- | --- | --- |
+| 55 | Share the journey as a web page, by link | `index.html` at the repository root, built from `JOURNEY.md` by `make_journey_html.py`. It has a contents rail on wide screens, Proven / Open / Observed tags, the gallery pictures as figures, and a drawing of the real flower ζ(½ + it), 0 ≤ t ≤ 50, in the header. It works on phones and in light and dark themes. A `.nojekyll` file lets GitHub Pages serve it as is once Pages is turned on (Settings → Pages → Deploy from a branch → main, / root). A copy is also published as a private page on claude.ai. |
+
+**Correction (append-only).** Step 54 above, and the same lines in CLAUDE.md and the write-up, say `JOURNEY.md` has "27 of the gallery pictures". It has **26**: a count of the image lines in the file, and the page build, both give 26.
+
+To update the page after extending `JOURNEY.md`: `python make_journey_html.py`. It needs the `markdown` package (now in requirements.txt).
