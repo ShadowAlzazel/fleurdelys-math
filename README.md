@@ -68,6 +68,8 @@ Each one saves a PNG into `output/`. Run any with `--help` to see its options.
 | `euler_product.py` | Partial Euler-product flowers, the 3-4-1 trick, and the log-coefficients | ~5 s |
 | `eigen_rh.py` | Redheffer matrix (det = Mertens), its eigenvalues, M(n)/√n, random-matrix spacings | ~10 s |
 | `hilbert_polya.py` | The map w = 1 − 1/s (critical line → unit circle), Li's λₙ, Davenport–Heilbronn zeros off the circle, random unitary eigenvalues vs zeros | ~20 s |
+| `cycle_matrix.py` | The Collatz cycle matrix B: polygon eigenvalues, Fourier eigenvectors, the cycle as (I − B)⁻¹e over all parity patterns, cycle-length bounds from log₂ 3 | ~15 s |
+| `cycle_kernels/plot_cycle_kernels.py` | The user's eigenspace figures for the cycles at −17 and 1 (kept as delivered; writes to output/cycle_kernels) | ~25 s |
 | `davenport_heilbronn.py` | ζ's flower next to the Davenport–Heilbronn function, a look-alike with zeros off the line; Newton step direction for both completed functions | flowers seconds, Newton field ~15 min |
 
 Examples:

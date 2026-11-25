@@ -988,3 +988,71 @@ The pull breaks exactly where the ledger jumps: the two tests see the same off-l
 | File | What it does |
 | --- | --- |
 | hilbert\_polya.py | The Li/Cayley map w = 1 − 1/s, zeros on the unit circle, Li's λₙ, Davenport–Heilbronn off the circle, CUE eigenvalues vs zeros. |
+
+## Session 2, continued: the cycle matrix, eigenspaces of Collatz cycles (Nov 25, 2026)
+
+### Journey log, continued
+
+| Step | Idea or question | What we found |
+| --- | --- | --- |
+| 51 | The user's zip `Fleurdelys_Cycle_Kernel_Plots`: an eigenspace view of the Collatz cycles at −17 and 1 | Kept as delivered in `cycle_kernels/` and reproduced exactly. Its matrix B is a weighted cyclic shift. Eigenvalues: a regular polygon of radius μ^(1/p). Eigenvectors: Fourier modes times one profile that follows the cycle itself. The cycle is the resolvent q = (I − B)⁻¹e, the classical cycle equation. A new positive cycle would need a polygon just inside the unit circle, which gives the known length bounds (Eliahou's 17,087,915 comes out exactly). |
+
+### What the zip contains (`cycle_kernels/`)
+
+- **The matrix.** For a p-cycle q₀, …, q_(p−1) of the complex Collatz map f, put a_j = f′(q_j) and B[(j + 1) mod p, j] = a_j, zeros elsewhere. It acts on small perturbations of all cycle points at once. Bᵖ = μI with μ = a₀a₁⋯a_(p−1), the cycle's multiplier.
+- **The figures.** Basins next to −17 (period 18) and 1 (period 3); the eigenvalues of B for the integer cycle and its twin; the phase of every eigenvector of the attracting cycle; twin primes in the radius n, angle n spiral.
+- **Reproduced here** (`python cycle_kernels/plot_cycle_kernels.py`, 24 s): twin offsets 4.4303563429·10⁻⁷ and 0.0014721821280, basin shares 40.4% and 35.9%, the same as the delivered JSON. These match our own earlier table (offsets 4.4·10⁻⁷ and 1.5·10⁻³, twin multiplier 0.94 at −17).
+- **Twin primes picture:** the counts are right (19 pairs up to 300, 205 up to 10⁴). It is the same view as our earlier `petal_spiral.py` twin panel.
+- **Basins:** their −17 panel zooms on the basin piece at −17 itself; our `collatz_julia_cycles.py` zoomed on the piece at −34, the one that holds a critical point. Both belong to the same attracting twin, whose return map has degree 2¹¹ = 2048.
+- One change: the script now writes to `output/cycle_kernels` by default and writes README/ZIP only with `--package`. Before, running it with `--out .` from the repository root would have overwritten the repository README. The change is recorded at the end of `cycle_kernels/README.md`.
+
+### What B knows (`cycle_matrix.py`)
+
+Each fact below has a short algebraic proof; the code checks each one numerically.
+
+1. **Eigenvalues: a regular polygon.** The eigenvalues are the p-th roots of μ, a regular p-gon on the circle of radius μ^(1/p). For an integer cycle μ = 3ᵏ/2ᵐ (k odd steps, m even steps). The polygon is on the unit circle only if 3ᵏ = 2ᵐ, which never happens. Inside means attracting, outside means repelling.
+
+| Cycle | p | k | m | μ | radius | twin μ | twin radius | 2ᵐ − 3ᵏ |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 → 4 → 2 | 3 | 1 | 2 | 0.75 | 0.9086 | 1.2768 | 1.0849 | 1 |
+| −1 → −2 | 2 | 1 | 1 | 1.5 | 1.2247 | 0.4987 | 0.7062 | −1 |
+| −5 → … | 5 | 2 | 3 | 1.125 | 1.0238 | 0.8829 | 0.9754 | −1 |
+| −17 → … | 18 | 7 | 11 | 1.0679 | 1.0037 | 0.9356 | 0.9963 | −139 |
+
+   The integer cycle and its twin always sit on opposite sides of the unit circle (the multipliers add up to about 2: 2.027, 1.999, 2.008, 2.003).
+
+2. **Eigenvectors: Fourier modes times one profile.** B = D(μ^(1/p)P)D⁻¹, where P is the plain cyclic shift and D is diagonal. So every eigenvector is v_j = |v_j|·e^(−2πijk/p): a discrete Fourier mode times one magnitude profile shared by all p eigenvectors. On the uploaded data, the phase panel equals the DFT matrix to 2.8·10⁻¹⁴, and the magnitudes agree across columns to 6·10⁻¹⁶. So the phase picture only knows p. The Collatz information is in the magnitudes, which the phase picture leaves out: the profile goes ×3 at odd steps and ÷2 at even steps, with the drift removed. It follows the cycle's own orbit |q_j|/μ^(j/p) (correlation of the logs: 0.9998 for −17, 0.994 for 1 → 4 → 2).
+
+3. **The cycle is the resolvent of B at 1.** Along an integer cycle q_(j+1) = a_j q_j + ε_j, with ε_j = 1 at odd steps (3n + 1) and 0 at even steps (n/2). So q = Bq + e, and q = (I − B)⁻¹e. Also det(I − B) = 1 − μ = (2ᵐ − 3ᵏ)/2ᵐ, which is −139/2048 for −17. This is the classical cycle equation (Böhm–Sontacchi 1978) in matrix form, checked to 10⁻¹². Every parity pattern (a word of odd and even steps) gives exactly one rational cycle (Lagarias 1990, "rational cycles"). Of all 8,388,606 patterns up to length 22, 103 give integers, and they are exactly the 5 known cycles: 0, (1, 4, 2), (−1, −2), (−5, …), (−17, …). Large cycle numbers need μ close to 1, that is, a polygon vertex close to the point 1.
+
+4. **A new positive cycle needs a polygon just inside the unit circle.** For a positive cycle ∏(1 + 1/(3n)) over its odd members equals 2ᵐ/3ᵏ. So if every odd member is at least N₀, then 0 < m log 2 − k log 3 ≤ k/(3N₀): m/k must approximate log₂ 3 from above, unusually well. Best approximations come from the continued fraction of log₂ 3. Results:
+
+| Every odd member at least | needs at least |
+| --- | --- |
+| 1 | k = 1, m = 2 (the 1 → 4 → 2 cycle itself fits) |
+| 1000 | k = 41, m = 65 |
+| 10⁶ | k = 2966, m = 4701 |
+| 2⁴⁰ | m = 17,087,915 halvings (k = 10,781,274) |
+| 2⁶⁸ | m = 114,208,327,604 (k = 72,057,431,991; 186,265,759,595 steps in all) |
+
+   The 2⁴⁰ row is exactly Eliahou's 1993 bound (cycle length counted in halvings, given that every n below 2⁴⁰ was checked to reach 1). The 2⁶⁸ row uses the computer check up to 2⁶⁸ (Barina). As far as I recall, 186,265,759,595 is also the bound in Hercher (2023); literature check to do. This is the Steiner (1977) / Eliahou method, drawn as how close the polygon may come to the unit circle.
+
+### Connections to the rest of the journey
+
+- **Hilbert–Pólya (step 50).** There, RH says the zeros sit exactly on a circle. Here a cycle's eigenvalues can never sit exactly on the unit circle (3ᵏ ≠ 2ᵐ), and a new positive cycle would have to come extremely close to it from inside. The integer cycle and its twin straddle the circle, a bit like a Davenport–Heilbronn off-line zero and its mirror. This is an analogy only: the Collatz pair comes from holomorphic dynamics (two nearby fixed points, multipliers adding to about 2), the Davenport–Heilbronn pair from the functional equation's symmetry.
+- **Fourier.** B is a weighted circulant, and the Fourier transform diagonalizes every circulant. That is why the eigenvectors are DFT modes.
+- **Redheffer (step 49).** Another simple matrix whose determinant holds the arithmetic: the Mertens function there, 2ᵐ − 3ᵏ here.
+- **log₂ 3 and continued fractions** (an open thread): panel (d) is exactly that thread.
+
+### Honest status
+
+- Everything here is known or a short repackaging of known facts. B holds no information beyond the parity pattern: its spectrum knows only μ and p, its eigenvectors only the orbit, and its resolvent is the cycle equation.
+- The one part that depends on the chosen complex extension is the twin's B (its μ, its basin). The integer B does not depend on the extension.
+- Proven: facts 1–3 (algebra) and the inequality in 4. Computer-checked: the search over all patterns up to length 22, and the bounds above, which rest on published verifications up to 2⁴⁰ and 2⁶⁸.
+
+&#91;image: Eigenvalue polygons of the cycle matrix B, eigenvectors as Fourier modes times one profile, the resolvent over all parity patterns, and how close a new cycle's polygon must come to the unit circle. Script: cycle_matrix.py.\]
+
+| File | What it does |
+| --- | --- |
+| cycle\_kernels/ | The user's zip as delivered (README, script, data, two figures); `--out` default changed to output/cycle\_kernels. |
+| cycle\_matrix.py | What the cycle matrix B knows: polygon eigenvalues, Fourier eigenvectors, the resolvent cycle equation over all parity patterns, cycle-length bounds from log₂ 3. |
