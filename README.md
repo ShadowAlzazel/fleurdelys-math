@@ -100,3 +100,7 @@ python newton_plane.py --ext -4 4 0 40 --height 1000
 ## Pictures
 
 Reduced copies of every picture, in journey order and with one-line captions, are in [`images/`](images/README.md). Full-size versions are redrawn into `output/` by the scripts.
+
+## The journey, start to finish
+
+New here? Read [`JOURNEY.md`](JOURNEY.md): a follow-along account of the whole exploration in pictures, with every claim marked as proven, open, or observed in our code.

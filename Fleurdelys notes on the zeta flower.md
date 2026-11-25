@@ -1099,3 +1099,11 @@ The full-size pictures live in `output/`, which git ignores. `images/` now keeps
 | --- | --- |
 | zeta\_determinants.py | Euler factors as 1×1 cycle matrices, Ihara zeta of three graphs (graph RH on and off), Frobenius eigenvalues and Sato–Tate for y² = x³ + x + 1. |
 | make\_gallery.py | Reduced copies of every journey picture into images/, with images/README.md. |
+
+## Session 2, continued: the follow-along journey (Nov 25, 2026)
+
+| Step | Idea or question | What we found |
+| --- | --- | --- |
+| 54 | Write the journey up for anyone who finds the repository | `JOURNEY.md`: a semi-formal, follow-along account in 13 sections, with 27 of the gallery pictures. Every claim is labelled Proven, Open or Observed; it ends with the lessons, a scorecard, how to run the code, and references by topic. It says plainly that it is not a proof of RH and that the author's own observation is still to come. |
+
+Two numbers were stated more carefully there than in a quick summary: the Mertens bound 0.568·√n holds from n = 100 to 10⁷ (the ratio is larger for small n, 0.89 at n = 5), and the Davenport–Heilbronn off-line zeros are described as computed here and documented in the literature, without a date range.
