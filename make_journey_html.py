@@ -20,6 +20,8 @@ import numpy as np
 from zeta_fast import zeta
 
 TITLE = "Fleurdelys Journey"
+DESC = ("A follow-along journey around the Riemann zeta function in 26 pictures. "
+        "Not a proof of RH: every claim is tagged proven, open or observed.")
 FONTS = ("https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@500;600;700"
          "&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap")
 
@@ -166,6 +168,33 @@ def flower_svg(tmax=50.0, n=2400):
             f'<circle cx="0" cy="0" r="0.07" fill="var(--ink)"/></svg>')
 
 
+def social_card(path="images/social_card.png", tmax=50.0):
+    """1200 x 630 preview picture for link cards (X, Bluesky, Mastodon, Slack...)."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    t = np.linspace(0.0, tmax, 4000)
+    z = zeta(0.5 + 1j * t, N=40)
+    fig = plt.figure(figsize=(12, 6.3), dpi=100)
+    fig.patch.set_facecolor("#10141c")
+    ax = fig.add_axes([0.52, 0.06, 0.46, 0.88])
+    ax.set_facecolor("#10141c")
+    ax.axhline(0, color="#29313f", lw=1)
+    ax.axvline(0, color="#29313f", lw=1)
+    ax.plot(z.real, z.imag, color="#f0804f", lw=1.6)
+    ax.plot([0], [0], "o", color="#e3e7ef", ms=7)
+    ax.set_aspect("equal")
+    ax.axis("off")
+    fig.text(0.06, 0.70, "Fleurdelys", color="#e3e7ef", fontsize=58, fontweight="bold")
+    fig.text(0.06, 0.55, "The Riemann zeta function,\ndrawn as a flower", color="#e3e7ef", fontsize=24, va="top", linespacing=1.3)
+    fig.text(0.06, 0.30, "A follow-along journey in 26 pictures.\nEvery claim tagged proven, open or observed.",
+             color="#9aa4b5", fontsize=16, va="top", linespacing=1.4)
+    fig.text(0.06, 0.08, "ζ(½ + it), 0 ≤ t ≤ 50: each pass through the dot is a zero", color="#9aa4b5", fontsize=12)
+    fig.savefig(path, facecolor=fig.get_facecolor())
+    plt.close(fig)
+    return path
+
+
 def tagify(s):
     names = "Proven|Open|Observed"
     s = re.sub(rf"<strong>({names}):?</strong>:?", lambda m: f'<span class="tag tag-{m.group(1).lower()}">{m.group(1)}</span>', s)
@@ -226,10 +255,22 @@ if __name__ == "__main__":
     ap.add_argument("--links", choices=["repo", "text"], default="repo",
                     help="repo: keep links to repository files; text: show them as plain names")
     ap.add_argument("--fragment", action="store_true", help="omit <!doctype>, <html>, <head> and <body>")
+    ap.add_argument("--site", default="https://shadowalzazel.github.io/fleurdelys-math/",
+                    help="public address of the page, for link previews (must end with /)")
     a = ap.parse_args()
+    social_card()
     page = build(open(a.src, encoding="utf-8").read(), a.links)
     head = (f'<title>{TITLE}</title>\n<meta name="claude:viewport-fit-sides" content="cover">\n'
-            f'<meta name="description" content="A follow-along journey around the Riemann zeta function, in pictures.">\n'
+            f'<meta name="description" content="{DESC}">\n'
+            f'<meta property="og:type" content="article">\n<meta property="og:title" content="Fleurdelys: the Riemann zeta function as a flower">\n'
+            f'<meta property="og:description" content="{DESC}">\n<meta property="og:url" content="{a.site}">\n'
+            f'<meta property="og:image" content="{a.site}images/social_card.png">\n'
+            f'<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">\n'
+            f'<meta property="og:image:alt" content="The flower traced by the Riemann zeta function on the critical line">\n'
+            f'<meta name="twitter:card" content="summary_large_image">\n'
+            f'<meta name="twitter:title" content="Fleurdelys: the Riemann zeta function as a flower">\n'
+            f'<meta name="twitter:description" content="{DESC}">\n'
+            f'<meta name="twitter:image" content="{a.site}images/social_card.png">\n'
             f'<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
             f'<link rel="stylesheet" href="{FONTS}">\n<style>{CSS}</style>\n')
     if a.fragment:
