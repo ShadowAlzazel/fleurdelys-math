@@ -70,6 +70,8 @@ Each one saves a PNG into `output/`. Run any with `--help` to see its options.
 | `hilbert_polya.py` | The map w = 1 − 1/s (critical line → unit circle), Li's λₙ, Davenport–Heilbronn zeros off the circle, random unitary eigenvalues vs zeros | ~20 s |
 | `cycle_matrix.py` | The Collatz cycle matrix B: polygon eigenvalues, Fourier eigenvectors, the cycle as (I − B)⁻¹e over all parity patterns, cycle-length bounds from log₂ 3 | ~15 s |
 | `cycle_kernels/plot_cycle_kernels.py` | The user's eigenspace figures for the cycles at −17 and 1 (kept as delivered; writes to output/cycle_kernels) | ~25 s |
+| `zeta_determinants.py` | Zeta functions as determinants: Euler factors, graph zeta functions with RH on and off the circle, Frobenius eigenvalues of an elliptic curve | ~5 s |
+| `make_gallery.py` | Reduced copies of every journey picture into `images/`, with a README | ~20 s |
 | `davenport_heilbronn.py` | ζ's flower next to the Davenport–Heilbronn function, a look-alike with zeros off the line; Newton step direction for both completed functions | flowers seconds, Newton field ~15 min |
 
 Examples:
@@ -94,3 +96,7 @@ python newton_plane.py --ext -4 4 0 40 --height 1000
 - Critical value ζ(w) ≈ 0.4317 + 0.0979i: the hub where all basins meet in the parameter plane.
 - Zeros up to t = 50: 10. Up to t = 1000: 649.
 - Lehmer pair: t ≈ 7005.0629 and 7005.1006, gap 0.038 (about 4% of normal spacing).
+
+## Pictures
+
+Reduced copies of every picture, in journey order and with one-line captions, are in [`images/`](images/README.md). Full-size versions are redrawn into `output/` by the scripts.

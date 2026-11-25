@@ -1056,3 +1056,46 @@ Each fact below has a short algebraic proof; the code checks each one numericall
 | --- | --- |
 | cycle\_kernels/ | The user's zip as delivered (README, script, data, two figures); `--out` default changed to output/cycle\_kernels. |
 | cycle\_matrix.py | What the cycle matrix B knows: polygon eigenvalues, Fourier eigenvectors, the resolvent cycle equation over all parity patterns, cycle-length bounds from log₂ 3. |
+
+## Session 2, continued: back to RH, zeta functions as determinants (Nov 25, 2026)
+
+### Journey log, continued
+
+| Step | Idea or question | What we found |
+| --- | --- | --- |
+| 52 | Connect the cycle matrix back to RH | The Collatz cycle's det(I − zB) = 1 − μzᵖ has the shape of one Euler factor. Multiplying such factors over all prime cycles gives a zeta function. In every setting where an RH-type statement is a theorem, it says: the eigenvalues of a matrix built from cycles lie on a circle. A graph with bottlenecks shows that an Euler product alone does not give RH. |
+| 53 | Keep the pictures | `images/`: reduced copies of all 37 journey pictures in journey order (4.7 MB), with a README for anyone who finds the repository. `make_gallery.py` rebuilds it. |
+
+### Zeta functions as determinants (`zeta_determinants.py`)
+
+- **The shape.** Riemann's zeta is ζ(s) = ∏ₚ (1 − p⁻ˢ)⁻¹: each prime acts like a 1 × 1 "cycle matrix" [p⁻ˢ], with factor det(I − [p⁻ˢ]). The Collatz cycle matrix B gives det(I − zB) = 1 − μzᵖ (`cycle_matrix.py`). Multiplying such factors over all prime cycles of a dynamical system gives a dynamical zeta function (Artin–Mazur 1965, Smale 1967, Ruelle 1976). There, prime cycles play the role of primes, and a "prime orbit theorem" plays the role of the prime number theorem (Parry–Pollicott 1983).
+- **(a) A single factor never vanishes in the strip.** The zeros of 1 − p⁻ˢ lie on Re s = 0, spaced 2π/log p (9.06 for p = 2, 5.72 for 3, 3.90 for 5, 3.23 for 7). ζ's zeros on Re s = ½ come only from the whole infinite product after analytic continuation. Compare `euler_product.py`: partial products never reach 0.
+- **(b) Graphs: RH holds exactly for Ramanujan graphs.** For a (q + 1)-regular graph, Ihara's zeta function (Ihara 1966) equals 1/det(I − uH). Here H is the non-backtracking matrix, a shift on directed edges just like B is a shift on cycle points (Hashimoto 1989, Bass 1992). "RH for the graph" means every nontrivial eigenvalue of H has |λ| = √q. That holds exactly when the graph is Ramanujan (Sunada 1986; Lubotzky–Phillips–Sarnak 1988). Checked here, q = 2:
+  - **Petersen graph:** passes. Second adjacency eigenvalue 1; all 18 nontrivial eigenvalues of H on |λ| = √2.
+  - **A random 3-regular graph on 200 vertices:** misses by a hair. λ₂ = 2.8344 against 2√2 = 2.8284, so 2 of its 398 nontrivial eigenvalues sit just off the circle (|λ| = 1.325, 1.509). Friedman (2008) proved random regular graphs are nearly Ramanujan; as far as I recall, a 2024 result (Huang–McKenzie–Yau) says about 69% of large ones are exactly Ramanujan. Literature check to do.
+- **(c) An Euler product alone does not force RH.** A 3-regular ring of 8 blocks (each a K₄ minus one edge), 32 vertices: λ₂ = 2.9239 > 2√2, and 4 eigenvalues of H leave the circle (|λ| = 1.091, 1.833, each twice). This graph's zeta still has an Euler product over its prime cycles, but RH fails. The cause is the bottlenecks: few edges between dense blocks.
+- **(d) Curves over finite fields: RH is a theorem.** For the elliptic curve y² = x³ + x + 1 and a prime p (not 2 or 31), the zeta function has the factor 1 − aₚT + pT² = det(I − T·Frob), where aₚ = p + 1 − (number of points mod p). RH for this curve says both eigenvalues α, ᾱ have |α| = √p (Hasse 1933; Weil 1948 for curves; Deligne 1974 in general). Our check: all 2,260 primes up to 20,000 satisfy |aₚ| ≤ 2√p (largest ratio 0.9997). The angles of α follow the Sato–Tate law (2/π)sin²θ, within 0.037 on an 18-bin histogram (proven 2008–2011 by Clozel, Harris, Shepherd-Barron, Taylor and others). This is Hilbert–Pólya come true: the zeros are eigenvalues of a matrix (Frobenius), and a positivity argument forces them onto the circle.
+
+### What this says about RH (the connection)
+
+- **Two look-alike tests now point the same way.** The Davenport–Heilbronn function has the symmetry of ζ but no Euler product, and RH fails. The bottleneck graph has an Euler product but lacks the extra structure, and RH fails. So a proof for ζ needs the Euler product **and** something more: a reason the "cycle matrix" must have its spectrum on a circle.
+- **Where the something more is known.** For graphs it is a spectral bound (Ramanujan). For curves over finite fields it is a positivity statement: the Castelnuovo–Weil inequality, later the Hodge index theorem and Deligne's method. For ζ there is no finite matrix: infinitely many zeros, and no Frobenius. Connes's program tries to build the analogue of Weil's positivity for ζ; it is open.
+- **In the language of our targets:** target D (Newton for ξ always moves toward the line) and Li's criterion (zeros on the circle) are both positivity statements of this kind. Proving them needs the missing "something more", not a better picture of the flower.
+- **Collatz.** The integer Collatz map has, conjecturally, finitely many cycles, so its cycle zeta function is just a polynomial (∏(1 − μzᵖ) over 5 cycles). It has no analytic continuation and no RH-type content. The connection is the shape of the formula, not a route to RH.
+
+### Status
+
+- Proven: Ihara–Bass determinant formula, Ramanujan ⇔ graph RH, Hasse–Weil–Deligne, Sato–Tate (for curves like this one), Selberg's zeta for hyperbolic surfaces (zeros on the line apart from finitely many tied to small Laplace eigenvalues).
+- Numerical here: the eigenvalue checks for three graphs, Hasse's bound and the Sato–Tate histogram for 2,260 primes.
+- Nothing here is new, and none of it moves ζ closer to RH. It shows what kind of extra structure a proof would need.
+
+### The picture gallery (`images/`)
+
+The full-size pictures live in `output/`, which git ignores. `images/` now keeps reduced copies (up to 1400 pixels wide, about 150–300 KB each, 4.7 MB in all) of all 37 journey pictures in journey order. Its README explains what the flower is, says plainly that this is not a proof of RH, and gives one line per picture. `python make_gallery.py` rebuilds it after the scripts are rerun.
+
+&#91;image: Euler factors against ζ's zeros, graph zeta functions on and off the circle, and Frobenius eigenvalues of an elliptic curve on the unit circle. Script: zeta_determinants.py.\]
+
+| File | What it does |
+| --- | --- |
+| zeta\_determinants.py | Euler factors as 1×1 cycle matrices, Ihara zeta of three graphs (graph RH on and off), Frobenius eigenvalues and Sato–Tate for y² = x³ + x + 1. |
+| make\_gallery.py | Reduced copies of every journey picture into images/, with images/README.md. |
